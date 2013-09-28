@@ -1,0 +1,52 @@
+extends layout
+
+block head
+
+  script(type='text/javascript', src='/javascripts/controllers/TodoListController.js')
+
+block content
+  div.container(ng-controller="TodoListController", ng-init="setTodos( #{JSON.stringify(todos)} )")
+    div.row
+      div.col-lg-6
+        form.form(name="taskForm", novalidate, ng-submit="addNewTodo()")
+                div.form-group
+                  Label Title
+                  input.form-control(type="text", ng-model="newTodo.title", placeholder="task title") 
+                div.form-group
+                  Label Description
+                  input.form-control(type="text", ng-model="newTodo.description", placeholder="task description")
+                div.form-group   
+                  Label Task Duration 
+                  input.form-control(type="text", ng-model="newTodo.ttl", placeholder="time to completion") 
+                div.form-group
+                  Label Due Date
+                  input.form-control(type="text", datepicker-popup="dd-MMMM-yyyy", placeholder="due date", ng-model="newTodo.due" ,is-open="opened", min="minDate" ,max="'2015-06-22'" ,datepicker-options="dateOptions" ,date-disabled="disabled(date, mode)" ,ng-required="true")
+                  button(class="btn",ng-click="open()")
+                   i.glyphicon.glyphicon-globe
+                div.form-group
+                  Label Orbit
+                  select.form-control(ng-model="newTodo.orbit")
+                    option(ng-repeat="orbit in orbits") {{orbit}}
+                button.btn.btn-primary(type="submit") Add Task
+      div.col-lg-6
+        div.taskList.col-lg-6
+          h2 My Tasks
+          ol.list-group
+            li.list-group-item(ng-repeat="todo in todos | orderBy: 'orbit'")
+              task(title='{{todo.title}}', description='{{todo.description}}', due="{{todo.due}}", ttl="{{todo.ttl | number}}", orbit="{{todo.orbit}}")
+    div.row 
+      div(ng-repeat="todo in todos") 
+        {{todo.done}}
+        input(type="checkbox", ng-model="todo.done", ng-change="update(todo)")
+    div.row
+      div.solarSystem.col-lg-12
+        canvas(id="solarCanvas", height=1500, width=1355)
+        h2 Planits 
+        div.orbitWrapper
+          div.orbit(ng-repeat="orbit in orbits | orderBy: 'orbit' ")
+            div.orbitLabel
+              h2(sort-orbit, orbitNum="orbit") Orbit {{orbit}} 
+              h4 {{sum}} Hours {{remainder}}
+            div(planet-rewrite, ng-repeat="todo in todos | filter:isOrbit(orbit)", ttl="{{todo.ttl}}", ng-click="toggleTaskMenu()", update="bling(todo)")
+ 
+  script(type="text/javascript", src="/javascripts/canvasDrawings.js")

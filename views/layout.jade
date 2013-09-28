@@ -1,0 +1,17 @@
+doctype 5
+html(ng-app="TodoModule")
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/bootstrap.css')
+    script(src='http://code.jquery.com/jquery-latest.min.js ')
+    script(type='text/javascript', src='/javascripts/vendor/angular/angular.js')
+    script(type='text/javascript', src='/javascripts/vendor/angular-bootstrap/ui-bootstrap-tpls-0.6.0.js')
+    script(type='text/javascript', src='/javascripts/TodoModule.js')
+
+    block head
+
+  body
+    nav.navbar.navbar-default
+      a.navbar-brand(href="#") Planits
+    block content
