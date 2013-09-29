@@ -43,10 +43,10 @@ block content
         canvas(id="solarCanvas", height=1500, width=1355)
         h2 Planits 
         div.orbitWrapper
-          div.orbit(ng-repeat="orbit in orbits | orderBy: 'orbit' ")
+          div.orbit(ng-repeat="orbit in orbits | orderBy: 'orbit.orbit' ")
             div.orbitLabel
-              h2(sort-orbit, orbitNum="orbit") Orbit {{orbit}} 
+              h2(sort-orbit, orbitNum="orbit") Orbit {{orbit.orbit}} 
               h4 {{sum}} Hours {{remainder}}
-            div(planet-rewrite, ng-repeat="todo in todos | filter:isOrbit(orbit)", ttl="{{todo.ttl}}", ng-click="toggleTaskMenu()", update="bling(todo)")
+            div(planet-rewrite, ng-repeat="todo in todos | filter:isOrbit(orbit.orbit)", ttl="{{todo.ttl}}", ng-click="toggleTaskMenu()", update="bling(todo)")
  
   script(type="text/javascript", src="/javascripts/canvasDrawings.js")

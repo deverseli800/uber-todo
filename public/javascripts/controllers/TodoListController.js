@@ -5,6 +5,9 @@ function TodoListController($scope, $http) {
     todo.done=! todo.done;
     alert(todo.done);
   }
+  $scope.cling=function() {
+    alert('yes!!');
+  }
   $scope.todos = [];
   $scope.newTodo = {
     title: '',
@@ -14,7 +17,8 @@ function TodoListController($scope, $http) {
     orbit: '',
     ttl:''
   };
-  $scope.orbits=[5,4,3,2,1];
+  $scope.orbits=[{orbit:5},{orbit:4},{orbit:3},{orbit:2},{orbit:1}];
+
   $scope.doneFilter = { done : true };
   $scope.notDoneFilter = { done : false };
 
@@ -228,7 +232,7 @@ app.directive('sortOrbit', function() {
          scope.remainder=0;
          
          angular.forEach(scope.todos, function(todo) {
-           if(todo.orbit==scope.orbit) {
+           if(todo.orbit==scope.orbit.orbit) {
             scope.sum=scope.sum+parseInt(todo.ttl);
            }              
          })
@@ -237,12 +241,13 @@ app.directive('sortOrbit', function() {
             scope.remainder=8-scope.sum;
             angular.forEach(scope.todos, function(todo) {
                 //console.log("my current orbit is"+scope.orbit+"my remainder is"+scope.remainder+","+"now i'm going up to"+parseInt(scope.orbit+1)+"and the ttls here are"+todo.ttl);
-                if(todo.orbit==(scope.orbit+1)) {
+                if(todo.orbit==(scope.orbit.orbit+1)) {
                   if(todo.ttl==scope.remainder){
-                    //alert('current orbit'+scope.orbit+todo.title+todo.orbit);                    
+                    alert('current orbit'+scope.orbit.orbit+todo.title+todo.orbit.orbit);  
+                                     
                   }
                   else{
-                    console.log('my orbit is'+todo.orbit+'im coming up from'+scope.orbit+"my ttl is "+todo.ttl);
+                    console.log('my orbit is'+todo.orbit+'im coming up from'+scope.orbit.orbit+"my ttl is "+todo.ttl);
                   }  
                 }
 
