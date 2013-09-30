@@ -140,8 +140,8 @@ function TodoListController($scope, $http, $filter) {
 
     // instance of filter function in myFilter
     var myFilter=$filter('orderBy');
+    //do the assingNewOrbits() as many times as there are potential tasks 
     var recur=potentialTasks.length;
-    alert(recur);
     myFilter(potentialTasks, 'due')[0];
     var other=myFilter(potentialTasks, 'due')[0];
     $scope.assignNewOrbits(orbit, other);
@@ -171,7 +171,7 @@ function TodoListController($scope, $http, $filter) {
               console.log(orbit.remainder);
               $scope.reSort(orbit);
          })
-         
+
   }
 }
 
