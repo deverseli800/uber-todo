@@ -113,7 +113,22 @@ function TodoListController($scope, $http, $filter) {
         }
   }
 
-  $scope.resort=function(orbit) {
+  $scope.assignNewOrbits=function(orbit, other) {
+    angular.forEach($scope.todos, function(todo){
+      if(todo==other) {      
+        todo.orbit=orbit.name;
+        $scope.update(todo);
+      }
+      else {
+        console.log(todo);
+        console.log(other);
+      }
+
+    });
+
+  }
+
+  $scope.reSort=function(orbit) {
     var nextOrbit= orbit.name+1;
     var potentialTasks=[];
     angular.forEach($scope.todos, function(todo){
@@ -123,29 +138,16 @@ function TodoListController($scope, $http, $filter) {
       }
     });
 
-     // instance of filter function in myFilter
-
-      var myFilter=$filter('orderBy');
-      myFilter(potentialTasks, 'due')[0];
-
-     var other=myFilter(potentialTasks, 'due')[0];
-
-    angular.forEach($scope.todos, function(todo){
-      if(todo==other) {
-        
-        todo.orbit=orbit.name;
-        $scope.update(todo);
-
-      }
-      else {
-        console.log(todo);
-        console.log(other);
-      }
-    });
+    // instance of filter function in myFilter
+    var myFilter=$filter('orderBy');
+    var recur=potentialTasks.length;
+    alert(recur);
+    myFilter(potentialTasks, 'due')[0];
+    var other=myFilter(potentialTasks, 'due')[0];
+    $scope.assignNewOrbits(orbit, other);
     
-   
-   
   }
+
   $scope.calculateRemainder=function () {
          angular.forEach($scope.orbits, function(orbit) {
             var remainder= 8;
@@ -167,8 +169,9 @@ function TodoListController($scope, $http, $filter) {
               }
               orbit.sum=sum;
               console.log(orbit.remainder);
-              $scope.resort(orbit);
+              $scope.reSort(orbit);
          })
+         
   }
 }
 
