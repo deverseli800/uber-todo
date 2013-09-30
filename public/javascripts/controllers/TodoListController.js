@@ -120,8 +120,7 @@ function TodoListController($scope, $http, $filter) {
         $scope.update(todo);
       }
       else {
-        console.log(todo);
-        console.log(other);
+        
       }
 
     });
@@ -168,7 +167,6 @@ function TodoListController($scope, $http, $filter) {
                 orbit.remainder=remainder;
               }
               orbit.sum=sum;
-              console.log(orbit.remainder);
               $scope.reSort(orbit);
          })
 
