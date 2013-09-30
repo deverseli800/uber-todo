@@ -1,10 +1,10 @@
 var app= angular.module('TodoModule', ['ui.bootstrap']);
 
 function TodoListController($scope, $http, $filter) {
-  $scope.bling=function(todo) {
+  $scope.finishTask=function(todo) {
     todo.done=! todo.done;
     $scope.update(todo);
-    todo.title="bob";
+
   }
 
   $scope.todos = [];
@@ -127,6 +127,7 @@ function TodoListController($scope, $http, $filter) {
 
   }
 
+
   $scope.reSort=function(orbit) {
     var nextOrbit= orbit.name+1;
     var potentialTasks=[];
@@ -193,52 +194,6 @@ app.directive('task', function() {
       scope.toggleDone=function() {
         scope.isTaskDone=! scope.isTaskDone;
       }
-      
-    }
-  }
-})
-
-
-app.directive('planet', function() {
-  return {
-    restrict:"A",
-    scope:{
-      title:"@",
-      description:"@",
-      due:"@",
-      ttl:"@",
-      orbit:"@",
-      size:"@",
-      done:"@"
-    },
-    template:"<div class='taskWrapper {{show}}' style='height:{{83+ttl*25}}px; margin-top:{{-10-12.5*ttl}}px;'><div class='taskPlanet {{size}}' style='width:{{50+25*ttl}}px; height:{{50+25*ttl}}px;'><div class='taskTTL'><h3>{{ttl}}</h3></div></div><div class='taskTitle'><h4 class='lead'>{{title}}</h4></div><div ng-show='showTaskMenu'><br /><button class='btn btn-danger'>Delete</button></div></div>",
-    link:function(scope, element, attrs) {
-      scope.showTaskMenu=false;
-      scope.toggleTaskMenu=function() {
-        scope.showTaskMenu=! scope.showTaskMenu;
-        //element.css({'opacity':'0.5'});
-
-      }
-      attrs.$observe('ttl', function(value) {
-        
-        if(value<4) {
-         attrs.$set('size', 'smallPlanet')
-         attrs.$set('show', 'yes')
-        }
-        else if(value>=4) {
-          attrs.$set('size', 'mediumPlanet')
-          attrs.$set('show', 'yes')
-        }
-        else if(value>6) {
-          attrs.$set('size', 'largePlanet')
-          attrs.$set('show', 'yes')
-        }
-        else {
-          attrs.$set('size', 'noPlanet')
-          attrs.$set('show', 'noShow')
-        }
-
-      })
       
     }
   }
