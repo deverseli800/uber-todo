@@ -1,10 +1,10 @@
 var app= angular.module('TodoModule', ['ui.bootstrap']);
 
 function TodoListController($scope, $http, $filter) {
+
   $scope.finishTask=function(todo) {
     todo.done=! todo.done;
     $scope.update(todo);
-
   }
 
   $scope.todos = [];
@@ -53,6 +53,7 @@ function TodoListController($scope, $http, $filter) {
   }, 30 * 60 * 1000); // update every 30 minutes;
 
   $scope.updateList();
+
   $scope.areSameDate=function(d1, d2) {
       return d1.getFullYear() == d2.getFullYear()
         && d1.getMonth() == d2.getMonth()
@@ -128,23 +129,28 @@ function TodoListController($scope, $http, $filter) {
   }
 
 
-  $scope.reSort=function(orbit) {
-    var nextOrbit= orbit.name+1;
+  $scope.reSort=function() {
     var potentialTasks=[];
-    angular.forEach($scope.todos, function(todo){
-      if(todo.orbit==nextOrbit && todo.ttl<orbit.remainder) {  
-        console.log("orbit"+orbit.name+"has a remainder of "+orbit.remainder+","+"i could fill it with"+todo.title+","+todo.ttl);   
-        potentialTasks.push(todo); 
-      }
-    });
+    angular.forEach($scope.orbits, function(orbit){
+      var nextOrbit= orbit.name+1;
+      angular.forEach($scope.todos, function(todo){
+        if(todo.orbit==nextOrbit && todo.ttl<orbit.remainder) {  
+          console.log("orbit"+orbit.name+"has a remainder of "+orbit.remainder+","+"i could fill it with"+todo.title+","+todo.ttl);   
+          potentialTasks.push(todo); 
+        }
+      });
+        // instance of filter function in myFilter
+      var myFilter=$filter('orderBy');
+      //do the assingNewOrbits() as many times as there are potential tasks 
+      var recur=potentialTasks.length;
 
-    // instance of filter function in myFilter
-    var myFilter=$filter('orderBy');
-    //do the assingNewOrbits() as many times as there are potential tasks 
-    var recur=potentialTasks.length;
-    myFilter(potentialTasks, 'due')[0];
-    var other=myFilter(potentialTasks, 'due')[0];
-    $scope.assignNewOrbits(orbit, other);
+      var other=myFilter(potentialTasks, 'due')[0];
+      $scope.assignNewOrbits(orbit, other);
+      $scope.calculateRemainder();
+    });
+    
+
+    
     
   }
 
@@ -168,7 +174,6 @@ function TodoListController($scope, $http, $filter) {
                 orbit.remainder=remainder;
               }
               orbit.sum=sum;
-              $scope.reSort(orbit);
          })
 
   }

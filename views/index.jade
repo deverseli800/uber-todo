@@ -37,9 +37,9 @@ block content
               task(title='{{todo.title}}', description='{{todo.description}}', due="{{todo.due}}", ttl="{{todo.ttl | number}}", orbit="{{todo.orbit}}")
     div.row
       div.col-lg-6
-        button.btn.btn-info(ng-click="calculateRemainder();") Re-Sort
+        button.btn.btn-info(ng-click="reSort();") Re-Sort
         div(ng-repeat="todo in todos")
-          {{todo.done}} {{todo.title}}
+          {{todo.done}} {{todo.title}} {{todo.orbit}}
          
     div.row
       div.solarSystem.col-lg-12
