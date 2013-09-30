@@ -1,6 +1,6 @@
 var app= angular.module('TodoModule', ['ui.bootstrap']);
 
-function TodoListController($scope, $http) {
+function TodoListController($scope, $http, $filter) {
   $scope.bling=function(todo) {
     todo.done=! todo.done;
     $scope.update(todo);
@@ -23,6 +23,7 @@ function TodoListController($scope, $http) {
 
   $scope.setTodos = function(todos) {
     $scope.todos = todos;
+    $scope.calculateRemainder();
   };
 
   $scope.update = function(todo) {
@@ -52,7 +53,6 @@ function TodoListController($scope, $http) {
   }, 30 * 60 * 1000); // update every 30 minutes;
 
   $scope.updateList();
-
   $scope.areSameDate=function(d1, d2) {
       return d1.getFullYear() == d2.getFullYear()
         && d1.getMonth() == d2.getMonth()
@@ -75,19 +75,20 @@ function TodoListController($scope, $http) {
      var today= new Date();
       //assign orbit based on the newtodo.due
       //if the task is due today, make the orbit 1
-      if($scope.areSameDate($scope.newTodo.due, today)==true) {
+      if($scope.areSameDate(today, $scope.newTodo.due)==true) {
         $scope.newTodo.orbit=1;
       }
       else{
-        //iftask is due this week, make orbit 2
-        if($scope.areSameWeek($scope.newTodo.due, today)==true) {
-          $scope.newTodo.orbit=2;
+        if ($scope.areSameWeek(today, $scope.newTodo.due)==true){
+        $scope.newTodo.orbit=2;
+        alert($scope.areSameWeek($scope.newTodo.due, today));
+        } 
+        else{
+         $scope.newTodo.orbit=3;
         }
-        else {
-          //if task is due after this week, put it in orbit 3
-          $scope.newTodo.orbit=3;
-        }
+      
       }
+        
 
       //send the data to the json 
       $http.post('/todo.json', $scope.newTodo).success(function(data) {
@@ -100,6 +101,9 @@ function TodoListController($scope, $http) {
               alert(JSON.stringify(data));
             }
       });
+
+      //update remainders 
+      $scope.calculateRemainder();
   };
 
   //filter data by task.orbit 
@@ -109,8 +113,49 @@ function TodoListController($scope, $http) {
             return todo.orbit == orbitId;
         }
   }
- 
 
+  $scope.resort=function(orbit) {
+    var nextOrbit= orbit.name+1;
+    var potentialTasks=[];
+    angular.forEach($scope.todos, function(todo){
+      if(todo.orbit==nextOrbit && todo.ttl<orbit.remainder) {  
+        console.log("orbit"+orbit.name+"has a remainder of "+orbit.remainder+","+"i could fill it with"+todo.title+","+todo.ttl);   
+        potentialTasks.push(todo); 
+      }
+    });
+
+     // instance of filter function in myFilter
+     console.log(potentialTasks);
+     var myFilter=$filter('orderBy');
+     myFilter(potentialTasks, 'due');
+     console.log(potentialTasks);
+   
+   
+  }
+  $scope.calculateRemainder=function () {
+         angular.forEach($scope.orbits, function(orbit) {
+            var remainder= 8;
+            var sum=0;
+            //iterate through todos and orbits and add up TTLs
+            angular.forEach($scope.todos, function(todo){
+              if(todo.orbit==orbit.name){ 
+                  sum= sum+todo.ttl;
+                }
+               })
+              //set remainder as 8 minues sum of TTLs 
+              remainder=remainder-sum;
+              //remainder cannot be negative
+              if(remainder<0) {
+                orbit.remainder=0;
+              }
+              else{
+                orbit.remainder=remainder;
+              }
+              orbit.sum=sum;
+              console.log(orbit.remainder);
+              $scope.resort(orbit);
+         })
+  }
 }
 
 app.directive('task', function() {
@@ -192,8 +237,9 @@ app.directive('planetRewrite', function() {
       ttl:"@",
       size:"@",
       update:"&",
+      title:"@"
     },
-    template:"<div class='taskWrapper {{show}} {{orbit}}' style='height:{{83+ttl*25}}px; margin-top:{{-10-12.5*tl}}px;'>{{todo.done}}<input type='checkbox' ng-model='todo.done', ng-change='update()' ><div class='taskPlanet {{size}}' style='width:{{50+25*ttl}}px; height:{{50+25*ttl}}px;'><div class='taskTTL'><h3>{{ttl}}</h3></div></div><div class='taskTitle'><h4 class='lead'>{{todo.title}}</h4></div><div ng-show='showTaskMenu'><br /><button class='btn btn-danger'>Delete</button></div></div>",
+    template:"<div class='taskWrapper {{show}} {{orbit}}' style='height:{{83+ttl*25}}px; margin-top:{{-10-12.5*tl}}px;'>{{todo.done}}<input type='checkbox' ng-model='todo.done', ng-change='update()' ><div class='taskPlanet {{size}}' style='width:{{50+25*ttl}}px; height:{{50+25*ttl}}px;'><div class='taskTTL'><h3>{{ttl}}</h3></div></div><div class='taskTitle'>{{todo.title}}<h4 class='lead'>{{title}}</h4></div><div ng-show='showTaskMenu'><br /><button class='btn btn-danger'>Delete</button></div></div>",
     link:function(scope, element, attrs) {
       scope.showTaskMenu=false;
       scope.toggleTaskMenu=function() {
