@@ -5,7 +5,7 @@ block head
   script(type='text/javascript', src='/javascripts/controllers/TodoListController.js')
 
 block content
-  div.container(ng-controller="TodoListController", ng-init="setTodos( #{JSON.stringify(todos)} ); ")
+  div.container(ng-controller="TodoListController", ng-init="setTodos( #{JSON.stringify(todos)}); ")
     div.row
       div.col-lg-6
         form.form(name="taskForm", novalidate, ng-submit="addNewTodo()")
@@ -37,13 +37,7 @@ block content
               task(title='{{todo.title}}', description='{{todo.description}}', due="{{todo.due}}", ttl="{{todo.ttl | number}}", orbit="{{todo.orbit}}")
     div.row
       div.col-lg-6
-        h1 Todos Array
-        div(ng-repeat="todo in todos") 
-          {{todo.title}}
-      div.col-lg-6
-        h1 Todos Array
-        div(ng-repeat="todo in todos | orderBy:'due' ") 
-          {{todo.title}}
+        button.btn.btn-info(ng-click="calculateRemainder();") Resort
          
     div.row
       div.solarSystem.col-lg-12

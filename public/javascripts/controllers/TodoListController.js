@@ -80,11 +80,10 @@ function TodoListController($scope, $http, $filter) {
       }
       else{
         if ($scope.areSameWeek(today, $scope.newTodo.due)==true){
-        $scope.newTodo.orbit=2;
-        alert($scope.areSameWeek($scope.newTodo.due, today));
+          $scope.newTodo.orbit=2;
         } 
         else{
-         $scope.newTodo.orbit=3;
+          $scope.newTodo.orbit=3;
         }
       
       }
@@ -125,10 +124,25 @@ function TodoListController($scope, $http, $filter) {
     });
 
      // instance of filter function in myFilter
-     console.log(potentialTasks);
-     var myFilter=$filter('orderBy');
-     myFilter(potentialTasks, 'due');
-     console.log(potentialTasks);
+
+      var myFilter=$filter('orderBy');
+      myFilter(potentialTasks, 'due')[0];
+
+     var other=myFilter(potentialTasks, 'due')[0];
+
+    angular.forEach($scope.todos, function(todo){
+      if(todo==other) {
+        
+        todo.orbit=orbit.name;
+        $scope.update(todo);
+
+      }
+      else {
+        console.log(todo);
+        console.log(other);
+      }
+    });
+    
    
    
   }
