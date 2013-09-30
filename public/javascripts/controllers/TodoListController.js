@@ -288,35 +288,5 @@ app.directive('planetRewrite', function() {
   }
 })
 
-app.directive('sortOrbit', function() {
-  return {
-    link:function (scope, element, attrs) {
-         scope.sum=0;
-         scope.remainder=0;
-         
-         angular.forEach(scope.todos, function(todo) {
-           if(todo.orbit==scope.orbit.name) {
-            scope.sum=scope.sum+parseInt(todo.ttl);
-           }              
-         })
 
-         if(scope.sum<8) {
-            scope.remainder=8-scope.sum;
-            angular.forEach(scope.todos, function(todo) {
-                //console.log("my current orbit is"+scope.orbit+"my remainder is"+scope.remainder+","+"now i'm going up to"+parseInt(scope.orbit+1)+"and the ttls here are"+todo.ttl);
-                if(todo.orbit==(scope.orbit.name+1)) {
-                  if(todo.ttl==scope.remainder){
-                    //alert('current orbit'+scope.orbit.orbit+todo.title+todo.orbit);    
-                  }
-                  else{
-                    console.log('my orbit is'+todo.orbit+'im coming up from'+scope.orbit.name+"my ttl is "+todo.ttl);
-                  }  
-                }
-
-            })
-          }
-
-        }
-  }
-})
 

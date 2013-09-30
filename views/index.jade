@@ -46,7 +46,7 @@ block content
         div.orbitWrapper
           div.orbit(ng-repeat="orbit in orbits | orderBy: 'orbit.name' ")
             div.orbitLabel
-              h2(sort-orbit, orbitNum="orbit") Orbit {{orbit.name}} 
+              h2 Orbit {{orbit.name}} 
               h4 {{orbit.sum}} Hours {{orbit.remainder}}
             div(planet-rewrite, ng-repeat="todo in todos | filter:isOrbit(orbit.name)", ttl="{{todo.ttl}}", title="{{todo.title}}", ng-click="toggleTaskMenu()", update="calculateRemainder()")
   
