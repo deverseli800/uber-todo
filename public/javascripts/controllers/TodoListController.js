@@ -4,7 +4,9 @@ function TodoListController($scope, $http, $filter) {
 
   $scope.finishTask=function(todo) {
     todo.done=! todo.done;
+    todo.title="Learn to Code";
     $scope.update(todo);
+    console.log(todo)
   }
 
   $scope.todos = [];
@@ -28,6 +30,7 @@ function TodoListController($scope, $http, $filter) {
 
   $scope.update = function(todo) {
     console.log('calling update');
+    console.log(todo);
     $http.put('/todo/' + todo._id + '.json', todo).success(function(data) {
       if (!data.todo) {
         alert(JSON.stringify(data));
