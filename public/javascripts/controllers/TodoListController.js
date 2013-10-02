@@ -229,15 +229,15 @@ app.directive('planetRewrite', function() {
       //assign planet illustration based on time to completion (TTL)
       attrs.$observe('ttl', function(value) {
         
-        if(value<4) {
+        if(value<2) {
          attrs.$set('size', 'smallPlanet')
          attrs.$set('show', 'yes')
         }
-        else if(value>=4) {
+        else if(value>=2 && value<4) {
           attrs.$set('size', 'mediumPlanet')
           attrs.$set('show', 'yes')
         }
-        else if(value>6) {
+        else if(value>4) {
           attrs.$set('size', 'largePlanet')
           attrs.$set('show', 'yes')
         }

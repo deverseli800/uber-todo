@@ -22,24 +22,15 @@ a {
 /* Style the planets based on size. could abstract the background positions to make DRY*/
 
 .smallPlanet {
-	background-image:url("/images/smallPlanet.png");
-	background-size: 'cover';
-    background-repeat: 'no-repeat';
-    background-position: 'center center';
+	background-color:rgba(172,165,126,0.9);
 }
 
 .largePlanet {
-	background-image:url("/images/largePlanet.png");
-	background-size: 'cover';
-    background-repeat: 'no-repeat';
-    background-position: 'center center';
+	background-color:rgba(78,58,74,0.7);
 }
 
 .mediumPlanet {
-	background-image:url("/images/mediumPlanet.png");	
-	background-size: 'cover';
-    background-repeat: 'no-repeat';
-    background-position: 'center center';
+	background-color:rgba(39,49,65,0.9);
 }
 
 .noShow {
@@ -54,7 +45,6 @@ a {
 	height:55px;
 	left:0;
 	right:0;
-	border:3px white solid;
 	width:55px;
 	border-radius:100px;
 	background-color:rgba(0,0,0,0.5);
@@ -79,7 +69,7 @@ a {
 	height:1500px;
 	/*background-image:url('/images/spacePattern.jpg');*/
 	/*background-color:#111826;*/
-	background-color:#253041;
+	background-color:#212020;
 	position: relative;
 	color:white;
 	text-align: center;

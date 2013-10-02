@@ -44,7 +44,7 @@ function drawStraightOrbits(number, spacing, height) {
 	var canvas = document.getElementById('solarCanvas');
       var context = canvas.getContext('2d');
       var startPoint= height-spacing;
-
+      context.setLineDash([5])
 
      context.beginPath();
       context.moveTo(0, startPoint);
@@ -52,7 +52,7 @@ function drawStraightOrbits(number, spacing, height) {
       context.lineWidth = 1;
 
    
-      context.strokeStyle = 'white';
+      context.strokeStyle = '#747f93';
       context.stroke();
 
 
@@ -61,8 +61,8 @@ function drawStraightOrbits(number, spacing, height) {
       context.lineTo(canvas.width, startPoint-spacing);
       context.lineWidth = 1;
 
-   
-      context.strokeStyle = 'white';
+      
+      context.strokeStyle =' #747f93';
       context.stroke();
 
      context.beginPath();
@@ -71,7 +71,7 @@ function drawStraightOrbits(number, spacing, height) {
       context.lineWidth = 1;
 
    
-      context.strokeStyle = 'white';
+      context.strokeStyle = '#747f93';
       context.stroke();
 
     context.beginPath();
@@ -80,7 +80,7 @@ function drawStraightOrbits(number, spacing, height) {
       context.lineWidth = 1;
 
    
-      context.strokeStyle = 'white';
+      context.strokeStyle = '#747f93';
       context.stroke();
 
      context.beginPath();
@@ -89,7 +89,7 @@ function drawStraightOrbits(number, spacing, height) {
       context.lineWidth = 1;
 
    
-      context.strokeStyle = 'white';
+      context.strokeStyle = '#747f93';
       context.stroke();
 
 
