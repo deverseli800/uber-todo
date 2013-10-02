@@ -41,6 +41,7 @@ exports.update = function(Todo) {
       if (error || !todo) {
         res.json({ error : error });
       } else {
+        todo.orbit = req.body.orbit;
         todo.done = req.body.done;
         todo.save(function(error, todo) {
           if (error || !todo) {
