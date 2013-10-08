@@ -102,8 +102,14 @@ canvas {
 	top:143px;
 }
 
-.roundOrbit {
-	border:1px blue solid;	
+.roundOrbit {	
+	border:3px blue solid;	
+	height:80px;
+	width:80px;
+	border-radius:100px	;
+	-webkit-border-radius:100px;
+	position: absolute;
+	
 }
 
 .orbit {

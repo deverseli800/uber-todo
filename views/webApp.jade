@@ -12,38 +12,37 @@ block content
     div.row(ng-show="showForm")
       div.col-lg-4
         form.form(name="taskForm", novalidate, ng-submit="addNewTodo()")
-                div.form-group
-                  Label Title
-                  input.form-control(type="text", ng-model="newTodo.title", placeholder="task title") 
-                div.form-group
-                  Label Description
-                  input.form-control(type="text", ng-model="newTodo.description", placeholder="task description")
-                div.form-group   
-                  Label Task Duration 
-                  input.form-control(type="text", ng-model="newTodo.ttl", placeholder="time to completion") 
-                div.form-group
-                  Label Due Date
-                  input.form-control(type="text", datepicker-popup="dd-MMMM-yyyy", placeholder="due date", ng-model="newTodo.due" ,is-open="opened", min="minDate" ,max="'2015-06-22'" ,datepicker-options="dateOptions" ,date-disabled="disabled(date, mode)" ,ng-required="true")
-                  button(class="btn",ng-click="open()")
-                   i.glyphicon.glyphicon-globe
-                div.form-group
-                  Label Orbit
-                  select.form-control(ng-model="newTodo.orbit")
-                    option(ng-repeat="orbit in orbits") {{orbit.name}}
-                button.btn.btn-primary(type="submit") Add Task
+          div.form-group
+            Label Title
+            input.form-control(type="text", ng-model="newTodo.title", placeholder="task title") 
+          div.form-group
+            Label Description
+            input.form-control(type="text", ng-model="newTodo.description", placeholder="task description")
+          div.form-group   
+            Label Task Duration 
+            input.form-control(type="text", ng-model="newTodo.ttl", placeholder="time to completion") 
+          div.form-group
+            Label Due Date
+            input.form-control(type="text", datepicker-popup="dd-MMMM-yyyy", placeholder="due date", ng-model="newTodo.due" ,is-open="opened", min="minDate" ,max="'2015-06-22'" ,datepicker-options="dateOptions" ,date-disabled="disabled(date, mode)" ,ng-required="true")
+            button(class="btn",ng-click="open()")
+             i.glyphicon.glyphicon-globe
+          div.form-group
+            Label Orbit
+            select.form-control(ng-model="newTodo.orbit")
+              option(ng-repeat="orbit in orbits") {{orbit.name}}
+          button.btn.btn-primary(type="submit") Add Task
       div.col-lg-4
-          div.taskList.col-lg-6
-            h2 My Tasks
-            {{orbits}}
-            ol.list-group
-              li.list-group-item(ng-repeat="todo in todos | orderBy: 'orbit'")
-                task(title='{{todo.title}}', description='{{todo.description}}', due="{{todo.due}}", ttl="{{todo.ttl | number}}", orbit="{{todo.orbit}}")
+        div.taskList.col-lg-6
+          h2 My Tasks
+          {{orbits}}
+          ol.list-group
+            li.list-group-item(ng-repeat="todo in todos | orderBy: 'orbit'")
+              task(title='{{todo.title}}', description='{{todo.description}}', due="{{todo.due}}", ttl="{{todo.ttl | number}}", orbit="{{todo.orbit}}")
       div.col-lg-4#solarWrapper
-         canvas(id="solarCanvas")
-         h2 Planits 
-          div.orbitWrapper
-            div.roundOrbit(ng-repeat="orbit in orbits | orderBy: 'orbit.name' ")
-              div.orbitLabel
-                p {{orbit.name}} 
-                div(planet-rewrite, ng-repeat="todo in todos | filter:isOrbit(orbit.name)", ttl="{{todo.ttl}}", title="{{todo.title}}", ng-click="toggleTaskMenu()", update="finishTask(todo)")
+        canvas(id="solarCanvas")
+        h2 Planits 
+        div.roundOrbit(ng-repeat="orbit in orbits")
+          div.orbitLabel
+            p {{orbit.name}} 
+            p {{orbit.remainder}}
   script(type="text/javascript", src="/javascripts/canvasDrawings.js")

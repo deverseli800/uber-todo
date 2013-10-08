@@ -107,9 +107,8 @@ function resizeCanvas() {
   canvas.width=solarWrapperWidth;
   canvas.height=solarWrapperWidth*1.775;
   console.log(solarWrapperWidth);
-  drawCircularOrbits(canvas.height, canvas.width, canvas.width/6);
-  drawCircularOrbits(canvas.height, canvas.width, canvas.width/3);
-  drawCircularOrbits(canvas.height, canvas.width, canvas.width/2.1);
+  drawCircularOrbits(canvas.height, canvas.width, canvas.width);
+  
 }
 
 function drawCircularOrbits(height, width, radius) {
@@ -119,15 +118,34 @@ function drawCircularOrbits(height, width, radius) {
   var context= canvas.getContext('2d');
   var circle={radius: radius, centerX: width/2, centerY: height/2};
 
-  //draw circle
+  //draw orbit 1
   context.beginPath();
-  context.arc(circle.centerX, circle.centerY, circle.radius, 0, 2*Math.PI, false); 
+  context.arc(circle.centerX, circle.centerY, circle.radius/6, 0, 2*Math.PI, false); 
   context.lineWidth = 2;
   context.setLineDash([5])
   context.strokeStyle='#747f93';
   context.stroke();
+
+   //draw orbit 2 
+  context.beginPath();
+  context.arc(circle.centerX, circle.centerY, circle.radius/3, 0, 2*Math.PI, false); 
+  context.lineWidth = 2;
+  context.setLineDash([5])
+  context.strokeStyle='#747f93';
+  context.stroke();
+
+   //draw orbit 3
+  context.beginPath();
+  context.arc(circle.centerX, circle.centerY, circle.radius/2.1, 0, 2*Math.PI, false); 
+  context.lineWidth = 2;
+  context.setLineDash([5])
+  context.strokeStyle='#747f93';
+  context.stroke();
+
+  //drawPlanit $('roundOrbit').css("")
+  
  
 }
-	
-drawStraightOrbits(5, 283, 1500);
+
+
 resizeCanvas();
