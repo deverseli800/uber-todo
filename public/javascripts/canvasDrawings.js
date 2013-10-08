@@ -97,5 +97,35 @@ function drawStraightOrbits(number, spacing, height) {
      $('.orbit').css('margin-top',0+'px');
 
 }
+
+// resize the canvas to fill browser window dynamically
+window.addEventListener('resize', resizeCanvas, false);
+
+function resizeCanvas() {
+  var canvas= document.getElementById('solarCanvas');
+  var solarWrapperWidth=$('#solarWrapper').width();
+  canvas.width=solarWrapperWidth;
+  canvas.height=700;
+  console.log(solarWrapperWidth);
+  drawCircularOrbits(400, 300);
+}
+
+function drawCircularOrbits(height, width) {
+  //resizeCanvas();
+  var canvas= document.getElementById('solarCanvas');
+  var solarWrapperWidth=$('#solarWrapper').width();
+  var context= canvas.getContext('2d');
+  var circle={radius: 250, centerX: width/2, centerY: height/2};
+
+  //draw circle
+  context.beginPath();
+  context.arc(circle.centerX, circle.centerY, circle.radius, 0, 2*Math.PI, false); 
+  context.lineWidth = 2;
+  context.setLineDash([5])
+  context.strokeStyle='#747f93';
+  context.stroke();
+ 
+}
 	
 drawStraightOrbits(5, 283, 1500);
+resizeCanvas();

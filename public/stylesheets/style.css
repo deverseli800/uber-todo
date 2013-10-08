@@ -19,6 +19,14 @@ a {
 	background-position: center;
 }
 
+canvas {
+	background-color:#212020;
+}
+
+#solarWrapper{
+	padding:0;
+}
+
 /* Style the planets based on size. could abstract the background positions to make DRY*/
 
 .smallPlanet {

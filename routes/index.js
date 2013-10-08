@@ -14,6 +14,16 @@ exports.index = function(Todo) {
   };
 };
 
+exports.webApp = function(Todo) {
+  return function(req, res) {
+    Todo.find({}, function(error, todos) {
+      res.render('webApp', {
+        title: 'Express',
+        todos : todos
+      });
+    });
+  };
+};
 exports.addTodo = function(Todo) {
   return function(req, res) {
     var todo = new Todo(req.body);

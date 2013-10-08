@@ -2,6 +2,9 @@ var app= angular.module('TodoModule', ['ui.bootstrap']);
 
 function TodoListController($scope, $http, $filter) {
 
+  //show or hide add task form 
+  $scope.showForm=true;
+
   $scope.finishTask=function(todo) {
     todo.done=! todo.done;
     todo.title="Learn to Code";
