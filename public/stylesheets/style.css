@@ -20,7 +20,7 @@ a {
 }
 
 canvas {
-	background-color:#212020;
+	background-color:#212020
 }
 
 #solarWrapper{
@@ -102,6 +102,10 @@ canvas {
 	top:143px;
 }
 
+.roundOrbit {
+	border:1px blue solid;	
+}
+
 .orbit {
 	width:100%;
 	position: relative;
@@ -113,6 +117,7 @@ canvas {
 	margin:auto;
 	left:0;
 	right:0;
+	text-align: center;
 }
 
 .orbitWrapper {

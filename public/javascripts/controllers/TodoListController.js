@@ -21,7 +21,7 @@ function TodoListController($scope, $http, $filter) {
     orbit: '',
     ttl:''
   };
-  $scope.orbits=[{name:5, remainder:0},{name:4, remainder:0},{name:3, remainder:0},{name:2, remainder:0},{name:1, remainder:0}];
+  $scope.orbits=[{name:3, remainder:0},{name:2, remainder:0},{name:1, remainder:0}];
 
   $scope.doneFilter = { done : true };
   $scope.notDoneFilter = { done : false };

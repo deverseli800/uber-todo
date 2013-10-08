@@ -105,17 +105,19 @@ function resizeCanvas() {
   var canvas= document.getElementById('solarCanvas');
   var solarWrapperWidth=$('#solarWrapper').width();
   canvas.width=solarWrapperWidth;
-  canvas.height=700;
+  canvas.height=solarWrapperWidth*1.775;
   console.log(solarWrapperWidth);
-  drawCircularOrbits(400, 300);
+  drawCircularOrbits(canvas.height, canvas.width, canvas.width/6);
+  drawCircularOrbits(canvas.height, canvas.width, canvas.width/3);
+  drawCircularOrbits(canvas.height, canvas.width, canvas.width/2.1);
 }
 
-function drawCircularOrbits(height, width) {
+function drawCircularOrbits(height, width, radius) {
   //resizeCanvas();
   var canvas= document.getElementById('solarCanvas');
   var solarWrapperWidth=$('#solarWrapper').width();
   var context= canvas.getContext('2d');
-  var circle={radius: 250, centerX: width/2, centerY: height/2};
+  var circle={radius: radius, centerX: width/2, centerY: height/2};
 
   //draw circle
   context.beginPath();

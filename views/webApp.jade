@@ -40,9 +40,10 @@ block content
                 task(title='{{todo.title}}', description='{{todo.description}}', due="{{todo.due}}", ttl="{{todo.ttl | number}}", orbit="{{todo.orbit}}")
       div.col-lg-4#solarWrapper
          canvas(id="solarCanvas")
-          h2 My Tasks
-          {{orbits}}
-          ol.list-group
-            li.list-group-item(ng-repeat="todo in todos | orderBy: 'orbit'")
-              task(title='{{todo.title}}', description='{{todo.description}}', due="{{todo.due}}", ttl="{{todo.ttl | number}}", orbit="{{todo.orbit}}")
+         h2 Planits 
+          div.orbitWrapper
+            div.roundOrbit(ng-repeat="orbit in orbits | orderBy: 'orbit.name' ")
+              div.orbitLabel
+                p {{orbit.name}} 
+                div(planet-rewrite, ng-repeat="todo in todos | filter:isOrbit(orbit.name)", ttl="{{todo.ttl}}", title="{{todo.title}}", ng-click="toggleTaskMenu()", update="finishTask(todo)")
   script(type="text/javascript", src="/javascripts/canvasDrawings.js")
