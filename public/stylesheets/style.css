@@ -102,14 +102,17 @@ canvas {
 	top:143px;
 }
 
-.roundOrbit {	
-	border:3px blue solid;	
+.orbit1, .orbit2, .orbit3 {	
+	border:2px #d8d5d5 solid;	
 	height:80px;
 	width:80px;
 	border-radius:100px	;
 	-webkit-border-radius:100px;
 	position: absolute;
-	
+	text-align: center;
+	background-color:rgba(49,54,63,0.9);
+	color:#d8d5d5;
+	line-height:1;
 }
 
 .orbit {
@@ -117,6 +120,8 @@ canvas {
 	position: relative;
 	border:1px transparent solid;
 }
+
+
 
 .orbitLabel {
 	position: absolute;

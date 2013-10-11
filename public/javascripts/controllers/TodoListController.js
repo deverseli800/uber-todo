@@ -22,7 +22,7 @@ function TodoListController($scope, $http, $filter) {
     ttl:''
   };
 
-  $scope.orbits=[{name:3, remainder:0},{name:2, remainder:0},{name:1, remainder:0}];
+  $scope.orbits=[{name:3, remainder:0, sum:0},{name:2, remainder:0, sum:0},{name:1, remainder:0, sum:0}];
 
   $scope.doneFilter = { done : true };
 
@@ -171,7 +171,7 @@ function TodoListController($scope, $http, $filter) {
    })
   }
 
-}
+}  
 
 app.directive('task', function() {
   return {
@@ -198,6 +198,28 @@ app.directive('task', function() {
   }
 })
 
+app.directive('orbitsum', function() {
+  return {
+    restrict:"E",
+    scope:{
+      name:"@",
+      orbitPos:"@",
+      sum:"@",
+      class:"@"
+    },
+    template:"<div class='orbitSumLabel {{orbitPos}}'><p>{{sum}}</p></div>",
+    link:function(scope, element, attrs) {
+      window.addEventListener('resize', console.log('yes'), false);
+      attrs.$observe('name', function(value) {
+        attrs.$set('class', "orbit"+value);
+        
+         
+
+      })
+      
+    }
+  }
+})
 
 app.directive('planetRewrite', function() {
   return {

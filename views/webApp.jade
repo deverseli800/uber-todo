@@ -41,8 +41,6 @@ block content
       div.col-lg-4#solarWrapper
         canvas(id="solarCanvas")
         h2 Planits 
-        div.roundOrbit(ng-repeat="orbit in orbits")
-          div.orbitLabel
-            p {{orbit.name}} 
-            p {{orbit.remainder}}
+        orbitsum(ng-repeat="orbit in orbits", name="{{orbit.name}}", sum="{{orbit.sum}}")
+          
   script(type="text/javascript", src="/javascripts/canvasDrawings.js")
