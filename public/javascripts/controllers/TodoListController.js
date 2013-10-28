@@ -92,6 +92,16 @@ function TodoListController($scope, $http, $filter) {
         $scope.newTodo.orbit=3;
       }
     }
+    angular.forEach($scope.orbits, function(orbit) {
+      console.log('ok my orbit is'+orbit.name);
+      console.log('my new todo has an orbit of'+$scope.newTodo.orbit);
+      console.log('my ttl is'+parseInt($scope.newTodo.orbit));
+      if($scope.newTodo.orbit==orbit.name) {
+        var ttl= parseInt($scope.newTodo.ttl);
+        var sum = parseInt(orbit.sum);
+        orbit.sum=ttl+sum;
+      }
+    })
     //send the data to the json 
     $http.post('/todo.json', $scope.newTodo).success(function(data) {
       if (data.todo) {
@@ -102,8 +112,7 @@ function TodoListController($scope, $http, $filter) {
         alert(JSON.stringify(data));
       }
     });
-    //update remainders 
-    $scope.calculateRemainder();
+    
   };
 
   //filter data by task.orbit 
@@ -149,13 +158,13 @@ function TodoListController($scope, $http, $filter) {
   }
 
   $scope.calculateRemainder=function () {
-    console.log($scope.todos);
+    //console.log($scope.todos);
     angular.forEach($scope.orbits, function(orbit) {
       var remainder= 8;
       var sum=0;
       //iterate through todos and orbits and add up TTLs
       angular.forEach($scope.todos, function(todo){
-        console.log(todo.title);
+        //console.log('the current task im looking at is '+todo.title+', and it has a ttl of '+todo.ttl);
         if(todo.orbit==orbit.name){ 
             sum= sum+todo.ttl;
           }
