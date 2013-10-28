@@ -102,15 +102,18 @@ function drawStraightOrbits(number, spacing, height) {
 window.addEventListener('resize', resizeCanvas, false);
 
 function resizeCanvas() {
+  //draw the right size galaxy 
   var canvas= document.getElementById('solarCanvas');
   var solarWrapperWidth=$('#solarWrapper').width();
-  var orbitSumRatio=canvas.width/8.15;
-  var fontVerticalAlign=(orbitSumRatio/2)-(canvas.width*0.056*0.5);
-
+ 
   canvas.width=solarWrapperWidth;
   canvas.height=solarWrapperWidth*1.775;
   console.log(solarWrapperWidth);
   drawCircularOrbits(canvas.height, canvas.width, canvas.width);
+
+  //draw the orbit sums
+  var orbitSumRatio=canvas.width/8.15;
+  var fontVerticalAlign=(orbitSumRatio/2)-(canvas.width*0.056*0.5);
 
   $('.orbit1, .orbit2, .orbit3').css('height', orbitSumRatio);
   $('.orbit1, .orbit2, .orbit3').css('width', orbitSumRatio);
@@ -165,5 +168,9 @@ function drawCircularOrbits(height, width, radius) {
   $('.orbit3').css('font-size', canvas.width*.056);
 }
 
+//draw the planits onload
 
-resizeCanvas();
+$( document ).ready(function() {
+    resizeCanvas();
+});
+

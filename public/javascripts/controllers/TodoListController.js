@@ -149,11 +149,13 @@ function TodoListController($scope, $http, $filter) {
   }
 
   $scope.calculateRemainder=function () {
+    console.log($scope.todos);
     angular.forEach($scope.orbits, function(orbit) {
       var remainder= 8;
       var sum=0;
       //iterate through todos and orbits and add up TTLs
       angular.forEach($scope.todos, function(todo){
+        console.log(todo.title);
         if(todo.orbit==orbit.name){ 
             sum= sum+todo.ttl;
           }
@@ -168,6 +170,8 @@ function TodoListController($scope, $http, $filter) {
         orbit.remainder=remainder;
       }
       orbit.sum=sum;
+      console.log('my obit is'+orbit+'my sum is'+orbit.sum);
+      console.log('my remainder is'+orbit.remainder);
    })
   }
 
@@ -201,6 +205,7 @@ app.directive('task', function() {
 app.directive('orbitsum', function() {
   return {
     restrict:"E",
+    transclude:true,
     scope:{
       name:"@",
       orbitPos:"@",
