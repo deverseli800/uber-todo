@@ -183,6 +183,8 @@ function resizeCanvasSingle() {
   canvas.height=solarWrapperWidth*1.775;
   console.log(solarWrapperWidth);
   drawCircularSingleOrbit(canvas.height, canvas.width, canvas.width);
+  drawPlanitSectors(canvas.height, canvas.width, canvas.width, 6);
+  drawPlanitSectors(canvas.height, canvas.width, canvas.width, 1);
 
   //draw the orbit sums
   var orbitSumRatio=canvas.width/8.15;
@@ -203,27 +205,13 @@ function drawCircularSingleOrbit(height, width, radius) {
 
   //draw orbit 1
   context.beginPath();
-  context.arc(circle.centerX, circle.centerY, circle.radius/6, 0, 2*Math.PI, false); 
+  context.arc(circle.centerX, circle.centerY, circle.radius*.375, 0, 2*Math.PI, false); 
   context.lineWidth = 2;
   context.setLineDash([5])
   context.strokeStyle='#747f93';
   context.stroke();
 
-   //draw orbit 2 
-  context.beginPath();
-  context.arc(circle.centerX, circle.centerY, circle.radius/3, 0, 2*Math.PI, false); 
-  context.lineWidth = 2;
-  context.setLineDash([5])
-  context.strokeStyle='#747f93';
-  context.stroke();
-
-  //draw orbit 3
-  context.beginPath();
-  context.arc(circle.centerX, circle.centerY, circle.radius/2.1, 0, 2*Math.PI, false); 
-  context.lineWidth = 2;
-  context.setLineDash([5])
-  context.strokeStyle='#747f93';
-  context.stroke();
+ 
  
   //place orbitSum 1
   $('.orbit1').css('left', canvas.width*.6);
@@ -239,6 +227,27 @@ function drawCircularSingleOrbit(height, width, radius) {
   $('.orbit3').css('left', canvas.width*.764);
   $('.orbit3').css('top', canvas.width*.46);
   $('.orbit3').css('font-size', canvas.width*.056);
+}
+
+function drawPlanitSectors(height, width, radius, position) {
+  var canvas= document.getElementById('singleOrbitCanvas');
+  var context= canvas.getContext('2d');
+  var circle={radius: radius, centerX: width/2, centerY: height/2};
+
+  // convert radians to degrees because yes
+  function toRadians(deg) {
+      return deg * Math.PI / 180
+  }
+
+  // draw a sector from 0 to Math.PI/2 aka one quarter of the Pie, going clockwise, starting at 0
+
+  context.beginPath();
+  context.fillStyle = 'lightblue'
+  context.moveTo(circle.centerX,circle.centerY);
+  context.arc(circle.centerX,circle.centerY,radius*.373,toRadians((position-1)*36),toRadians(position*36));
+  context.lineTo(circle.centerX,circle.centerY);
+  context.closePath();
+  context.fill();
 }
 
 

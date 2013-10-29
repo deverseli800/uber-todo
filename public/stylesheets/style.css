@@ -94,12 +94,13 @@ canvas {
 .taskWrapper {
 	width:260px;
 	height:260px;
-	position: relative;
+	position: absolute;
 	margin: auto;
 	top:0;
 	bottom:0;
-	float: left;
-	top:143px;
+	left:0;
+	right:0;
+	border:1px blue solid;
 }
 
 .orbit1, .orbit2, .orbit3 {	
