@@ -118,8 +118,9 @@ function TodoListController($scope, $http, $filter) {
   //filter data by task.orbit 
   $scope.isOrbit = function(orbitId) {
     // take task and return the ones where the orbitID==task.orbit
+    var orbitNumber= parseInt(orbitId);
     return function(todo) {
-        return todo.orbit == orbitId;
+        return todo.orbit == orbitNumber;
     }
   }
 

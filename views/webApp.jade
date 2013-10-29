@@ -42,5 +42,12 @@ block content
         canvas(id="solarCanvas")
         h2 Planits 
         orbitsum(ng-repeat="orbit in orbits", name="{{orbit.name}}", sum="{{orbit.sum}}", ng-transclude)
+    div.row
+      div.col-lg-4#singleOrbitWrapper
+        select(ng-model="selectedOrbit")
+          option(ng-repeat="orbit in orbits"){{orbit.name}}    
+        canvas(id="singleOrbitCanvas")
+        h2 {{selectedOrbit}}
+        div(planet-rewrite, ng-repeat="todo in todos | filter:isOrbit(selectedOrbit)", ttl="{{todo.ttl}}", title="{{todo.title}}", ng-click="toggleTaskMenu()", update="finishTask(todo)")
           
   script(type="text/javascript", src="/javascripts/canvasDrawings.js")
