@@ -23,7 +23,7 @@ function TodoListController($scope, $http, $filter) {
     ttl:''
   };
 
-  $scope.orbits=[{name:3, remainder:0, sum:0},{name:2, remainder:0, sum:0},{name:1, remainder:0, sum:0}];
+  $scope.orbits=[{name:3, remainder:0, sum:0, angle:0},{name:2, remainder:0, sum:0, angle:0},{name:1, remainder:0, sum:0, angle:0}];
   $scope.selectedOrbit=$scope.orbits[0];
 
   $scope.doneFilter = { done : true };
@@ -33,7 +33,7 @@ function TodoListController($scope, $http, $filter) {
   $scope.setTodos = function(todos) {
     $scope.todos = todos;
     $scope.calculateRemainder();
-    $scope.setPlanitPosition();
+    $scope.setOrbitAngle();
   };
 
   $scope.update = function(todo) {
@@ -184,16 +184,14 @@ function TodoListController($scope, $http, $filter) {
    })
   }
 
-  $scope.setPlanitPosition=function() {
+  $scope.setOrbitAngle=function() {
      angular.forEach($scope.orbits, function(orbit) {
       var tasksInOrbit= $filter('filter') ($scope.todos,$scope.isOrbit(orbit.name));
-      console.log(tasksInOrbit.length);
-     })
-    
-    //divide 360 by the total number of tasks in this orbit
-    //for the orbit iterate through the planits for a given orbit
-    
-    //perform the tranform on planits
+      var taskAngle=360/(tasksInOrbit.length);
+      //console.log(tasksInOrbit.length);
+      orbit.angle=taskAngle;
+      console.log(orbit.name+":"+taskAngle);
+      })
   }
 
 }  
@@ -235,7 +233,6 @@ app.directive('orbitsum', function() {
     },
     template:"<div class='orbitSumLabel {{orbitPos}}'><p>{{sum}}</p></div>",
     link:function(scope, element, attrs) {
-      window.addEventListener('resize', console.log('yes'), false);
       attrs.$observe('name', function(value) {
         attrs.$set('class', "orbit"+value);
         
@@ -255,7 +252,8 @@ app.directive('planetRewrite', function() {
       size:"@",
       update:"&",
       title:"@",
-      orbit:"@"
+      orbit:"@",
+      angle:"@"
     },
     template:"<div class='taskWrapper {{show}} inOrbit{{orbit}}' style='height:{{83+ttl*25}}px; margin-top:{{-10-12.5*tl}}px;'>{{todo.done}}<input ng-hide='true' type='checkbox' ng-model='todo.done', ng-change='update()' >"+
               "<div class='taskPlanet {{size}}' style='width:{{50+25*ttl}}px; height:{{50+25*ttl}}px;'><div class='taskTTL'><h3>{{ttl}}</h3></div></div><div class='taskTitle'>{{todo.title}}<h4 class='lead'>"+
@@ -268,7 +266,9 @@ app.directive('planetRewrite', function() {
 
       }
 
-
+      attrs.$observe('angle', function(value) {
+        console.log(value);
+      })
 
       //assign planet illustration based on time to completion (TTL)
       attrs.$observe('ttl', function(value) {

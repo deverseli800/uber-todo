@@ -46,6 +46,6 @@ block content
         select(ng-model="selectedOrbit", ng-options="orbit.name for orbit in orbits")   
         canvas(id="singleOrbitCanvas")
         h2 Orbit {{selectedOrbit.name}}
-        div(planet-rewrite, ng-repeat="todo in todos | filter:isOrbit(selectedOrbit.name)", ttl="{{todo.ttl}}", title="{{todo.title}}", orbit="{{selectedOrbit}}", ng-click="toggleTaskMenu()", update="finishTask(todo)")
+        div(planet-rewrite, ng-repeat="todo in todos | filter:isOrbit(selectedOrbit.name)", ttl="{{todo.ttl}}", title="{{todo.title}}", orbit="{{selectedOrbit.name}}", ng-click="toggleTaskMenu()", update="finishTask(todo)", angle="{{selectedOrbit.angle}}")
           
   script(type="text/javascript", src="/javascripts/canvasDrawings.js")

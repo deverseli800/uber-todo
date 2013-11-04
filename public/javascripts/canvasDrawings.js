@@ -239,10 +239,7 @@ function drawPlanitSectors(height, width, radius, position) {
       return deg * Math.PI / 180
   }
 
-  $( ".inOrbit1" ).each(function( index ) {
-    console.log( index + ": " );
-  })
-
+ 
   // draw a sector from 0 to Math.PI/2 aka one quarter of the Pie, going clockwise, starting at 0
 
   context.beginPath();
