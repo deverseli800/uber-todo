@@ -52,6 +52,7 @@ exports.update = function(Todo) {
         res.json({ error : error });
       } else {
         todo.orbit = req.body.orbit;
+        todo.angle = req.body.angle;
         todo.done = req.body.done;
         todo.save(function(error, todo) {
           if (error || !todo) {

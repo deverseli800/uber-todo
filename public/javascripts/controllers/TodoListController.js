@@ -20,7 +20,8 @@ function TodoListController($scope, $http, $filter) {
     due : new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
     description : '',
     orbit: '',
-    ttl:''
+    ttl:'',
+    angle:''
   };
 
   $scope.orbits=[{name:3, remainder:0, sum:0},{name:2, remainder:0, sum:0},{name:1, remainder:0, sum:0}];
@@ -192,10 +193,15 @@ function TodoListController($scope, $http, $filter) {
       //console.log(tasksInOrbit.length);
       for (var i = tasksInOrbit.length - 1; i >= 0; i--) {
         tasksInOrbit[i].angle=taskAngle*i;
-        console.log(tasksInOrbit[i].angle);
+        console.log(tasksInOrbit[i].title+":"+tasksInOrbit[i].angle);
       };
-      
+      angular.forEach($scope.todos, function(todo) {
+        todo.angle=15;
+        $scope.update(todo);
       })
+      })
+
+      
   }
 
 }  
@@ -271,7 +277,7 @@ app.directive('planetRewrite', function() {
       }
 
       attrs.$observe('angle', function(value) {
-        console.log(value);
+        console.log('my angle is'+value);
       })
 
       //assign planet illustration based on time to completion (TTL)
