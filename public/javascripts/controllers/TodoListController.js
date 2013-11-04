@@ -13,6 +13,7 @@ function TodoListController($scope, $http, $filter) {
 
   $scope.todos = [];
 
+
   $scope.newTodo = {
     title: '',
     done : false,
@@ -23,6 +24,7 @@ function TodoListController($scope, $http, $filter) {
   };
 
   $scope.orbits=[{name:3, remainder:0, sum:0},{name:2, remainder:0, sum:0},{name:1, remainder:0, sum:0}];
+  $scope.selectedOrbit=$scope.orbits[0];
 
   $scope.doneFilter = { done : true };
 
@@ -31,6 +33,7 @@ function TodoListController($scope, $http, $filter) {
   $scope.setTodos = function(todos) {
     $scope.todos = todos;
     $scope.calculateRemainder();
+    $scope.setPlanitPosition();
   };
 
   $scope.update = function(todo) {
@@ -93,9 +96,6 @@ function TodoListController($scope, $http, $filter) {
       }
     }
     angular.forEach($scope.orbits, function(orbit) {
-      console.log('ok my orbit is'+orbit.name);
-      console.log('my new todo has an orbit of'+$scope.newTodo.orbit);
-      console.log('my ttl is'+parseInt($scope.newTodo.orbit));
       if($scope.newTodo.orbit==orbit.name) {
         var ttl= parseInt($scope.newTodo.ttl);
         var sum = parseInt(orbit.sum);
@@ -180,9 +180,20 @@ function TodoListController($scope, $http, $filter) {
         orbit.remainder=remainder;
       }
       orbit.sum=sum;
-      console.log('my obit is'+orbit+'my sum is'+orbit.sum);
-      console.log('my remainder is'+orbit.remainder);
+     
    })
+  }
+
+  $scope.setPlanitPosition=function() {
+     angular.forEach($scope.orbits, function(orbit) {
+      var tasksInOrbit= $filter('filter') ($scope.todos,$scope.isOrbit(orbit.name));
+      console.log(tasksInOrbit.length);
+     })
+    
+    //divide 360 by the total number of tasks in this orbit
+    //for the orbit iterate through the planits for a given orbit
+    
+    //perform the tranform on planits
   }
 
 }  
@@ -243,9 +254,10 @@ app.directive('planetRewrite', function() {
       ttl:"@",
       size:"@",
       update:"&",
-      title:"@"
+      title:"@",
+      orbit:"@"
     },
-    template:"<div class='taskWrapper {{show}} {{orbit}}' style='height:{{83+ttl*25}}px; margin-top:{{-10-12.5*tl}}px;'>{{todo.done}}<input type='checkbox' ng-model='todo.done', ng-change='update()' >"+
+    template:"<div class='taskWrapper {{show}} inOrbit{{orbit}}' style='height:{{83+ttl*25}}px; margin-top:{{-10-12.5*tl}}px;'>{{todo.done}}<input ng-hide='true' type='checkbox' ng-model='todo.done', ng-change='update()' >"+
               "<div class='taskPlanet {{size}}' style='width:{{50+25*ttl}}px; height:{{50+25*ttl}}px;'><div class='taskTTL'><h3>{{ttl}}</h3></div></div><div class='taskTitle'>{{todo.title}}<h4 class='lead'>"+
               "{{title}}</h4></div><div ng-show='showTaskMenu'><br /><button class='btn btn-danger'>Delete</button></div></div>",
     link:function(scope, element, attrs) {
@@ -255,6 +267,8 @@ app.directive('planetRewrite', function() {
         //element.css({'opacity':'0.5'});
 
       }
+
+
 
       //assign planet illustration based on time to completion (TTL)
       attrs.$observe('ttl', function(value) {
