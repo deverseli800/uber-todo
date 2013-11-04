@@ -100,7 +100,6 @@ canvas {
 	bottom:0;
 	left:0;
 	right:0;
-	border:1px blue solid;
 }
 
 .orbit1, .orbit2, .orbit3 {	
@@ -141,5 +140,5 @@ canvas {
 
 
 planet-rewrite {
-	border:10px blue solid;
+	color:white;
 }

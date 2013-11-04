@@ -266,7 +266,7 @@ app.directive('planetRewrite', function() {
       orbit:"@",
       angle:"@"
     },
-    template:"<div class='taskWrapper {{show}} ' style='height:{{83+ttl*25}}px; margin-top:{{-10-12.5*tl}}px; -webkit-transform:rotate({{angle}}deg) translate(100px) rotate(-{{angle}}deg)'>{{todo.done}}<input ng-hide='true' type='checkbox' ng-model='todo.done', ng-change='update()' >"+
+    template:"<div class='taskWrapper {{show}} ' style='height:{{83+ttl*25}}px; margin-top:{{-10-12.5*tl}}px; -webkit-transform:rotate({{angle}}deg) translate(110px) rotate(-{{angle}}deg)'>{{todo.done}}<input ng-hide='true' type='checkbox' ng-model='todo.done', ng-change='update()' >"+
               "<div class='taskPlanet {{size}}' style='width:{{50+25*ttl}}px; height:{{50+25*ttl}}px; '><div class='taskTTL'><h3>{{ttl}}</h3></div></div><div class='taskTitle'>{{todo.title}}<h4 class='lead'>"+
               "{{title}}</h4></div><div ng-show='showTaskMenu'><br /><button class='btn btn-danger'>Delete</button></div></div>",
     link:function(scope, element, attrs) {

@@ -239,16 +239,6 @@ function drawPlanitSectors(height, width, radius, position) {
       return deg * Math.PI / 180
   }
 
- 
-  // draw a sector from 0 to Math.PI/2 aka one quarter of the Pie, going clockwise, starting at 0
-
-  context.beginPath();
-  context.fillStyle = 'lightblue'
-  context.moveTo(circle.centerX,circle.centerY);
-  context.arc(circle.centerX,circle.centerY,radius*.373,toRadians((position-1)*36),toRadians(position*36));
-  context.lineTo(circle.centerX,circle.centerY);
-  context.closePath();
-  context.fill();
 }
 
 
