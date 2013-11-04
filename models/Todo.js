@@ -7,4 +7,5 @@ exports.TodoSchema = new Mongoose.Schema({
   title :  { type : String, required : true },
   orbit:  { type : String, required : false },
   ttl: { type : Number, required : false }
+  angle:{type: Number, required: false}
 });

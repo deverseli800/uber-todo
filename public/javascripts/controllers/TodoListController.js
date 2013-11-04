@@ -23,7 +23,7 @@ function TodoListController($scope, $http, $filter) {
     ttl:''
   };
 
-  $scope.orbits=[{name:3, remainder:0, sum:0, angle:0},{name:2, remainder:0, sum:0, angle:0},{name:1, remainder:0, sum:0, angle:0}];
+  $scope.orbits=[{name:3, remainder:0, sum:0},{name:2, remainder:0, sum:0},{name:1, remainder:0, sum:0}];
   $scope.selectedOrbit=$scope.orbits[0];
 
   $scope.doneFilter = { done : true };
@@ -188,9 +188,13 @@ function TodoListController($scope, $http, $filter) {
      angular.forEach($scope.orbits, function(orbit) {
       var tasksInOrbit= $filter('filter') ($scope.todos,$scope.isOrbit(orbit.name));
       var taskAngle=360/(tasksInOrbit.length);
+      console.log('my orbit is now'+orbit.name);
       //console.log(tasksInOrbit.length);
-      orbit.angle=taskAngle;
-      console.log(orbit.name+":"+taskAngle);
+      for (var i = tasksInOrbit.length - 1; i >= 0; i--) {
+        tasksInOrbit[i].angle=taskAngle*i;
+        console.log(tasksInOrbit[i].angle);
+      };
+      
       })
   }
 
@@ -255,7 +259,7 @@ app.directive('planetRewrite', function() {
       orbit:"@",
       angle:"@"
     },
-    template:"<div class='taskWrapper {{show}} inOrbit{{orbit}}' style='height:{{83+ttl*25}}px; margin-top:{{-10-12.5*tl}}px;'>{{todo.done}}<input ng-hide='true' type='checkbox' ng-model='todo.done', ng-change='update()' >"+
+    template:"<div class='taskWrapper {{show}} deg{{angle}} ' style='height:{{83+ttl*25}}px; margin-top:{{-10-12.5*tl}}px;'>{{todo.done}}<input ng-hide='true' type='checkbox' ng-model='todo.done', ng-change='update()' >"+
               "<div class='taskPlanet {{size}}' style='width:{{50+25*ttl}}px; height:{{50+25*ttl}}px;'><div class='taskTTL'><h3>{{ttl}}</h3></div></div><div class='taskTitle'>{{todo.title}}<h4 class='lead'>"+
               "{{title}}</h4></div><div ng-show='showTaskMenu'><br /><button class='btn btn-danger'>Delete</button></div></div>",
     link:function(scope, element, attrs) {
