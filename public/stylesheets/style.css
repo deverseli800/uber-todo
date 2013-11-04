@@ -20,7 +20,7 @@ a {
 }
 
 canvas {
-	background-color:#212020
+	background-color:#212020;
 }
 
 #solarWrapper{
@@ -137,4 +137,9 @@ canvas {
 	position: absolute;
 	left:0;
 	margin-top:-142px;
+}
+
+
+planet-rewrite {
+	border:10px blue solid;
 }

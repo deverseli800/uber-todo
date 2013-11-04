@@ -113,6 +113,9 @@ function TodoListController($scope, $http, $filter) {
         alert(JSON.stringify(data));
       }
     });
+
+    //redo the angles of planits
+    $scope.setOrbitAngle();
     
   };
 
@@ -194,11 +197,9 @@ function TodoListController($scope, $http, $filter) {
       for (var i = tasksInOrbit.length - 1; i >= 0; i--) {
         tasksInOrbit[i].angle=taskAngle*i;
         console.log(tasksInOrbit[i].title+":"+tasksInOrbit[i].angle);
+        $scope.update(tasksInOrbit[i]);
       };
-      angular.forEach($scope.todos, function(todo) {
-        todo.angle=15;
-        $scope.update(todo);
-      })
+
       })
 
       
@@ -256,7 +257,7 @@ app.directive('orbitsum', function() {
 
 app.directive('planetRewrite', function() {
   return {
-    restrict:"A",
+    restrict:"E",
     scope:{
       ttl:"@",
       size:"@",
@@ -265,8 +266,8 @@ app.directive('planetRewrite', function() {
       orbit:"@",
       angle:"@"
     },
-    template:"<div class='taskWrapper {{show}} deg{{angle}} ' style='height:{{83+ttl*25}}px; margin-top:{{-10-12.5*tl}}px;'>{{todo.done}}<input ng-hide='true' type='checkbox' ng-model='todo.done', ng-change='update()' >"+
-              "<div class='taskPlanet {{size}}' style='width:{{50+25*ttl}}px; height:{{50+25*ttl}}px;'><div class='taskTTL'><h3>{{ttl}}</h3></div></div><div class='taskTitle'>{{todo.title}}<h4 class='lead'>"+
+    template:"<div class='taskWrapper {{show}} ' style='height:{{83+ttl*25}}px; margin-top:{{-10-12.5*tl}}px; -webkit-transform:rotate({{angle}}deg) translate(100px) rotate(-{{angle}}deg)'>{{todo.done}}<input ng-hide='true' type='checkbox' ng-model='todo.done', ng-change='update()' >"+
+              "<div class='taskPlanet {{size}}' style='width:{{50+25*ttl}}px; height:{{50+25*ttl}}px; '><div class='taskTTL'><h3>{{ttl}}</h3></div></div><div class='taskTitle'>{{todo.title}}<h4 class='lead'>"+
               "{{title}}</h4></div><div ng-show='showTaskMenu'><br /><button class='btn btn-danger'>Delete</button></div></div>",
     link:function(scope, element, attrs) {
       scope.showTaskMenu=false;
@@ -276,9 +277,12 @@ app.directive('planetRewrite', function() {
 
       }
 
+
       attrs.$observe('angle', function(value) {
-        console.log('my angle is'+value);
-      })
+        element.css({
+          '-webkit-transform':'rotate('+value+'deg)', '-webkit-transform': 'translate(10px)','-webkit-transform':'rotate(-'+value+'deg)'
+          });
+      });
 
       //assign planet illustration based on time to completion (TTL)
       attrs.$observe('ttl', function(value) {
