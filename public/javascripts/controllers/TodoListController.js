@@ -113,10 +113,8 @@ function TodoListController($scope, $http, $filter) {
         alert(JSON.stringify(data));
       }
     });
-
     //redo the angles of planits
     $scope.setOrbitAngle();
-    
   };
 
   //filter data by task.orbit 
@@ -135,7 +133,6 @@ function TodoListController($scope, $http, $filter) {
         $scope.update(todo);
       }
       else {
-        
       }
     });
   }
@@ -227,7 +224,6 @@ app.directive('task', function() {
       scope.toggleDone=function() {
         scope.isTaskDone=! scope.isTaskDone;
       }
-      
     }
   }
 })
@@ -246,11 +242,7 @@ app.directive('orbitsum', function() {
     link:function(scope, element, attrs) {
       attrs.$observe('name', function(value) {
         attrs.$set('class', "orbit"+value);
-        
-         
-
       })
-      
     }
   }
 })
@@ -264,31 +256,32 @@ app.directive('planetRewrite', function() {
       update:"&",
       title:"@",
       orbit:"@",
-      angle:"@"
+      angle:"@",
+      offset:"@"
     },
-    template:"<div class='taskWrapper {{show}} ' style='height:{{83+ttl*25}}px; margin-top:{{-10-12.5*tl}}px; -webkit-transform:rotate({{angle}}deg) translate(110px) rotate(-{{angle}}deg)'>{{todo.done}}<input ng-hide='true' type='checkbox' ng-model='todo.done', ng-change='update()' >"+
+    template:"<div class='taskWrapper {{show}} ' style='height:10px; -webkit-transform:rotate({{angle}}deg)"+ 
+              "translate({{offset}}px) rotate(-{{angle}}deg)'>{{todo.done}}<input ng-hide='true' type='checkbox' ng-model='todo.done', ng-change='update()' >"+
               "<div class='taskPlanet {{size}}'><div class='taskTTL'><p>{{ttl}}</p></div></div><div class='taskTitle'>{{todo.title}}<h4 class='lead'>"+
               "{{title}}</h4></div><div ng-show='showTaskMenu'><br /><button class='btn btn-danger'>Delete</button></div></div>",
     link:function(scope, element, attrs) {
       scope.showTaskMenu=false;
       scope.toggleTaskMenu=function() {
         scope.showTaskMenu=! scope.showTaskMenu;
-        //element.css({'opacity':'0.5'});
-
       }
 
-     
+      function calculateOffset() {
+        var canvasWidth=document.getElementById('singleOrbitCanvas').width;
+        var offset=canvasWidth*.375;
+        attrs.$set('offset', offset);
+      }
 
+      calculateOffset();
 
-      attrs.$observe('angle', function(value) {
-        element.css({
-          '-webkit-transform':'rotate('+value+'deg)', '-webkit-transform': 'translate(10px)','-webkit-transform':'rotate(-'+value+'deg)'
-          });
-      });
+      window.addEventListener('resize', calculateOffset, false);
+
 
       //assign planet illustration based on time to completion (TTL)
       attrs.$observe('ttl', function(value) {
-        
         if(value<2) {
          attrs.$set('size', 'smallPlanet')
          attrs.$set('show', 'yes')
@@ -305,7 +298,6 @@ app.directive('planetRewrite', function() {
           attrs.$set('size', 'noPlanet')
           attrs.$set('show', 'noShow')
         }
-
       })
       
     }

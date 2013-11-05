@@ -1,103 +1,3 @@
-function drawCurvedOrbits() {
-	var canvas = document.getElementById('solarCanvas');
-      var context = canvas.getContext('2d');
-
-     context.beginPath();
-      context.moveTo(0, 900);
-      context.quadraticCurveTo(340, 625, 680, 900);
-      context.lineWidth = 2;
-
-   
-      context.strokeStyle = 'white';
-      context.stroke();
-
-
-      context.beginPath();
-      context.moveTo(0, 700);
-      context.quadraticCurveTo(340, 425, 680, 700);
-      context.lineWidth = 2;
-
-      context.strokeStyle = 'white';
-      context.stroke();
-
-
-      context.beginPath();
-      context.moveTo(0, 500);
-      context.quadraticCurveTo(340, 225, 680, 500);
-      context.lineWidth = 2;
-
-      context.strokeStyle = 'white';
-      context.stroke();
-
-      context.beginPath();
-      context.moveTo(0, 300);
-      context.quadraticCurveTo(340, 25, 680, 300);
-      context.lineWidth = 2;
-
-      
-      context.strokeStyle = 'white';
-      context.stroke(); 
-
-}
-
-function drawStraightOrbits(number, spacing, height) {
-	var canvas = document.getElementById('solarCanvas');
-      var context = canvas.getContext('2d');
-      var startPoint= height-spacing;
-      context.setLineDash([5])
-
-     context.beginPath();
-      context.moveTo(0, startPoint);
-      context.lineTo(canvas.width, startPoint);
-      context.lineWidth = 1;
-
-   
-      context.strokeStyle = '#747f93';
-      context.stroke();
-
-
-     context.beginPath();
-      context.moveTo(0, startPoint-spacing);
-      context.lineTo(canvas.width, startPoint-spacing);
-      context.lineWidth = 1;
-
-      
-      context.strokeStyle =' #747f93';
-      context.stroke();
-
-     context.beginPath();
-      context.moveTo(0, startPoint-(2*spacing));
-      context.lineTo(canvas.width, startPoint-(2*spacing));
-      context.lineWidth = 1;
-
-   
-      context.strokeStyle = '#747f93';
-      context.stroke();
-
-    context.beginPath();
-      context.moveTo(0, startPoint-(3*spacing));
-      context.lineTo(canvas.width, startPoint-(3*spacing));
-      context.lineWidth = 1;
-
-   
-      context.strokeStyle = '#747f93';
-      context.stroke();
-
-     context.beginPath();
-      context.moveTo(0, startPoint-(4*spacing));
-      context.lineTo(canvas.width, startPoint-(4*spacing));
-      context.lineWidth = 1;
-
-   
-      context.strokeStyle = '#747f93';
-      context.stroke();
-
-
-     $('.orbit').css('height',spacing+'px');
-     $('.orbit').css('margin-top',0+'px');
-
-}
-
 // resize the canvas to fill browser window dynamically
 window.addEventListener('resize', resizeCanvas, false);
 
@@ -105,11 +5,9 @@ function resizeCanvas() {
   //draw the right size galaxy 
   var canvas= document.getElementById('solarCanvas');
   var solarWrapperWidth=$('#solarWrapper').width();
-  
- 
+
   canvas.width=solarWrapperWidth;
   canvas.height=solarWrapperWidth*1.775;
-  console.log(solarWrapperWidth);
   drawCircularOrbits(canvas.height, canvas.width, canvas.width);
 
   //draw the orbit sums
@@ -122,7 +20,6 @@ function resizeCanvas() {
 }
 
 function drawCircularOrbits(height, width, radius) {
-  //resizeCanvas();
   var canvas= document.getElementById('solarCanvas');
   var solarWrapperWidth=$('#solarWrapper').width();
   var context= canvas.getContext('2d');
@@ -152,9 +49,6 @@ function drawCircularOrbits(height, width, radius) {
   context.setLineDash([5])
   context.strokeStyle='#747f93';
   context.stroke();
-
-
-
  
   //place orbitSum 1
   $('.orbit1').css('left', canvas.width*.6);
@@ -181,14 +75,11 @@ function resizeCanvasSingle() {
   var canvas= document.getElementById('singleOrbitCanvas');
   var solarWrapperWidth=$('#singleOrbitWrapper').width();
   
- 
   canvas.width=solarWrapperWidth;
   canvas.height=solarWrapperWidth*1.775;
-  console.log(solarWrapperWidth);
   drawCircularSingleOrbit(canvas.height, canvas.width, canvas.width);
-  drawPlanitSectors(canvas.height, canvas.width, canvas.width, 6);
-  drawPlanitSectors(canvas.height, canvas.width, canvas.width, 1);
-
+  drawPlanitsInOrbit(canvas.height, canvas.width);
+  
   //draw the orbit sums
   var orbitSumRatio=canvas.width/8.15;
   var fontVerticalAlign=(orbitSumRatio/2)-(canvas.width*0.056*0.5);
@@ -205,7 +96,6 @@ function drawCircularSingleOrbit(height, width, radius) {
   var context= canvas.getContext('2d');
   var circle={radius: radius, centerX: width/2, centerY: height/2};
 
-
   //draw orbit 1
   context.beginPath();
   context.arc(circle.centerX, circle.centerY, circle.radius*.375, 0, 2*Math.PI, false); 
@@ -214,8 +104,6 @@ function drawCircularSingleOrbit(height, width, radius) {
   context.strokeStyle='#747f93';
   context.stroke();
 
- 
- 
   //place orbitSum 1
   $('.orbit1').css('left', canvas.width*.6);
   $('.orbit1').css('top', canvas.width*.77);
@@ -232,17 +120,17 @@ function drawCircularSingleOrbit(height, width, radius) {
   $('.orbit3').css('font-size', canvas.width*.056);
 }
 
-function drawPlanitSectors(height, width, radius, position) {
+function drawPlanitsInOrbit(height, width) {
   var canvas= document.getElementById('singleOrbitCanvas');
   var context= canvas.getContext('2d');
-  var circle={radius: radius, centerX: width/2, centerY: height/2};
   var orbitSumRatio=canvas.width/8.15;
   var fontVerticalAlign=(canvas.width*0.056*0.4);
+
+  console.log('i sould be drawing the planits right now hmmmm'+orbitSumRatio);
 
   //set planit font size
   $('.taskWrapper').css('font-size', canvas.width*.056);
   $('.taskWrapper h4').css('font-size', canvas.width*.035);
-
 
   //planit TTL size 
   $('.taskTTL').css('height', orbitSumRatio*.6);
@@ -252,20 +140,18 @@ function drawPlanitSectors(height, width, radius, position) {
   //planit TTL size 
   $('.smallPlanet').css('height', orbitSumRatio*1.35);
   $('.smallPlanet').css('width', orbitSumRatio*1.35);
+  $('.smallPlanet').css('margin-top', orbitSumRatio*1.35*-.5);
+  //$('.smallPlanet').css('margin-left', orbitSumRatio*1.35*-.5);
   $('.mediumPlanet').css('height', orbitSumRatio*1.75);
   $('.mediumPlanet').css('width', orbitSumRatio*1.75);
-  $('.largePlanet').css('height', orbitSumRatio*2.3);
-  $('.largePlanet').css('width', orbitSumRatio*2.3);
-  
-
-
-  // convert radians to degrees because yes
-  function toRadians(deg) {
-      return deg * Math.PI / 180
-  }
+  $('.mediumPlanet').css('margin-top', orbitSumRatio*1.75*-.5);
+  //$('.mediumPlanet').css('margin-left', orbitSumRatio*1.75*-.5);
+  $('.largePlanet').css('height', orbitSumRatio*2.2);
+  $('.largePlanet').css('width', orbitSumRatio*2.2);  
+  $('.largePlanet').css('margin-top', orbitSumRatio*2.2*-.5);
+  //$('.largePlanet').css('margin-left', orbitSumRatio*2.2*-.5);  
 
 }
-
 
 //draw the planits onload
 

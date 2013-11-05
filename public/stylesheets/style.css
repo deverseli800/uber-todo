@@ -90,8 +90,6 @@ canvas {
 }
 
 .taskWrapper {
-	width:260px;
-	height:260px;
 	position: absolute;
 	margin: auto;
 	top:0;
@@ -120,7 +118,6 @@ canvas {
 }
 
 
-
 .orbitLabel {
 	position: absolute;
 	margin:auto;
@@ -139,4 +136,8 @@ canvas {
 
 planet-rewrite {
 	color:white;
+}
+
+#singleOrbitWrapper {
+	padding:0;
 }
