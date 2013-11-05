@@ -5,7 +5,7 @@ block head
   script(type='text/javascript', src='/javascripts/controllers/TodoListController.js')
 
 block content
-  div.wrapper(ng-controller="TodoListController", ng-init="setTodos( #{JSON.stringify(todos)}); ")
+  div.wrapper(ng-controller="TodoListController", ng-init="setTodos( #{JSON.stringify(todos)}); calculateRemainder(); ")
     div.row
       div.col-lg-12(ng-click="showForm =! showForm")
         h1 Add a Task
@@ -37,13 +37,21 @@ block content
           {{orbits}}
           ol.list-group
             li.list-group-item(ng-repeat="todo in todos | orderBy: 'orbit'")
+              {{todo.done}}
+              input(type="checkbox", ng-model="todo.done", ng-change="update(todo)")
               task(title='{{todo.title}}', description='{{todo.description}}', due="{{todo.due}}", ttl="{{todo.ttl | number}}", orbit="{{todo.orbit}}")
       div.col-lg-4#solarWrapper
         canvas(id="solarCanvas")
         orbitsum(ng-repeat="orbit in orbits", name="{{orbit.name}}", sum="{{orbit.sum}}", ng-transclude)
     div.row
       div.col-lg-4#singleOrbitWrapper
-        select(ng-model="selectedOrbit", ng-options="orbit.name for orbit in orbits")   
+        select(ng-model="selectedOrbit", ng-options="orbit.name for orbit in orbits") 
+        div.orbitLabel
+          div.orbitLabelCircle
+            h2 {{selectedOrbit.name}}
+            p.orbitName Orbit
+          p {{selectedOrbit.tasks}} Tasks  
+          p {{selectedOrbit.sum}} Hours
         canvas(id="singleOrbitCanvas")
         planet-rewrite(ng-repeat="todo in todos | filter:isOrbit(selectedOrbit.name)", angle="{{todo.angle}}", ttl="{{todo.ttl}}", title="{{todo.title}}", orbit="{{selectedOrbit.name}}", ng-click="toggleTaskMenu()", update="finishTask(todo)")
           

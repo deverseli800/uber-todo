@@ -124,6 +124,28 @@ canvas {
 	left:0;
 	right:0;
 	text-align: center;
+	color:#d8d5d5;
+	font-weight:400;
+	top:50%;
+}
+
+.orbitLabel p {
+	font-weight:100;
+}
+
+.orbitLabel h2, p.orbitName {
+	font-weight:500;
+	line-height:1em;
+	margin-top:0;
+}
+
+.orbitLabelCircle {
+	border:1px blue solid;
+	border-radius:500px;
+	position: relative;
+	margin:auto;
+	left:0;
+	right: 0;
 }
 
 .orbitWrapper {

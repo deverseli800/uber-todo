@@ -128,6 +128,15 @@ function drawPlanitsInOrbit(height, width) {
 
   console.log('i sould be drawing the planits right now hmmmm'+orbitSumRatio);
 
+  //orbitLabel Styles
+  $('.orbitLabel h2').css('font-size', canvas.width*0.045);
+  $('.orbitLabel p').css('font-size', canvas.width*0.037);
+  $('.orbitLabel').css('margin-top', canvas.width*-0.121);
+  $('.orbitLabelCircle').css('width', canvas.width*0.2);
+  $('.orbitLabelCircle').css('height', canvas.width*0.2);
+  $('.orbitLabelCircle').css('padding-top', canvas.width*0.034);
+  $('.orbitLabelCircle').css('border', canvas.width*0.008+"px #d8d5d5 solid");
+
   //set planit font size
   $('.taskWrapper').css('font-size', canvas.width*.056);
   $('.taskWrapper h4').css('font-size', canvas.width*.035);

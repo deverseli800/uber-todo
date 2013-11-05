@@ -7,7 +7,6 @@ function TodoListController($scope, $http, $filter) {
 
   $scope.finishTask=function(todo) {
     todo.done=! todo.done;
-    todo.title="Learn to Code";
     $scope.update(todo);
   }
 
@@ -24,7 +23,7 @@ function TodoListController($scope, $http, $filter) {
     angle:''
   };
 
-  $scope.orbits=[{name:3, remainder:0, sum:0},{name:2, remainder:0, sum:0},{name:1, remainder:0, sum:0}];
+  $scope.orbits=[{name:3, remainder:0, sum:0, tasks:0},{name:2, remainder:0, sum:0, tasks:0},{name:1, remainder:0, sum:0, tasks:0}];
   $scope.selectedOrbit=$scope.orbits[0];
 
   $scope.doneFilter = { done : true };
@@ -101,6 +100,7 @@ function TodoListController($scope, $http, $filter) {
         var ttl= parseInt($scope.newTodo.ttl);
         var sum = parseInt(orbit.sum);
         orbit.sum=ttl+sum;
+        orbit.tasks=orbit.tasks+1;
       }
     })
     //send the data to the json 
@@ -152,7 +152,6 @@ function TodoListController($scope, $http, $filter) {
       var myFilter=$filter('orderBy');
       //do the assingNewOrbits() as many times as there are potential tasks 
       var recur=potentialTasks.length;
-
       var other=myFilter(potentialTasks, 'due')[0];
       $scope.assignNewOrbits(orbit, other);
       $scope.calculateRemainder();
@@ -160,10 +159,12 @@ function TodoListController($scope, $http, $filter) {
   }
 
   $scope.calculateRemainder=function () {
-    //console.log($scope.todos);
+    console.log('calculating remainder');
     angular.forEach($scope.orbits, function(orbit) {
       var remainder= 8;
       var sum=0;
+      var totalTasks=$filter('filter') ($scope.todos,$scope.isOrbit(orbit.name));
+      console.log(totalTasks.length);
       //iterate through todos and orbits and add up TTLs
       angular.forEach($scope.todos, function(todo){
         //console.log('the current task im looking at is '+todo.title+', and it has a ttl of '+todo.ttl);
@@ -181,7 +182,7 @@ function TodoListController($scope, $http, $filter) {
         orbit.remainder=remainder;
       }
       orbit.sum=sum;
-     
+      orbit.tasks=totalTasks.length;
    })
   }
 
@@ -189,11 +190,9 @@ function TodoListController($scope, $http, $filter) {
      angular.forEach($scope.orbits, function(orbit) {
       var tasksInOrbit= $filter('filter') ($scope.todos,$scope.isOrbit(orbit.name));
       var taskAngle=360/(tasksInOrbit.length);
-      console.log('my orbit is now'+orbit.name);
-      //console.log(tasksInOrbit.length);
       for (var i = tasksInOrbit.length - 1; i >= 0; i--) {
         tasksInOrbit[i].angle=taskAngle*i;
-        console.log(tasksInOrbit[i].title+":"+tasksInOrbit[i].angle);
+        //console.log(tasksInOrbit[i].title+":"+tasksInOrbit[i].angle);
         $scope.update(tasksInOrbit[i]);
       };
 
@@ -214,7 +213,8 @@ app.directive('task', function() {
       ttl:"@",
       orbit:"@"
     },
-    template:"<div class='task'><h4 ng-click='toggleDetail()'>{{title}} <span class='badge pull-right'>{{orbit}}</span></h4><p ng-show='showDetail'>{{description}} {{ttl}} {{due}}</p></div>",
+    template:"<div class='task'><h4 ng-click='toggleDetail()'>{{title}} <span class='badge pull-right'>{{orbit}}</span></h4>"+
+            "<p ng-show='showDetail'>{{description}}</p></div>",
     link:function(scope, element, attrs) {
       scope.showDetail=false;
       scope.isTaskDone=false;
