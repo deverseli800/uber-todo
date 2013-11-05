@@ -50,10 +50,8 @@ canvas {
 	margin: auto;
 	top:0;
 	bottom:0;
-	height:55px;
 	left:0;
 	right:0;
-	width:55px;
 	border-radius:100px;
 	background-color:rgba(0,0,0,0.5);
 
@@ -70,7 +68,7 @@ canvas {
 .taskTTL h1,.taskTTL h2, .taskTTL h3, .taskTTL h4 {
 	margin-top:0;
 	margin-bottom:0;
-	line-height:50px;
+	
 }
 
 .solarSystem {

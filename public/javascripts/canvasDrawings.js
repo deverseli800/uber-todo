@@ -152,6 +152,9 @@ function drawCircularOrbits(height, width, radius) {
   context.setLineDash([5])
   context.strokeStyle='#747f93';
   context.stroke();
+
+
+
  
   //place orbitSum 1
   $('.orbit1').css('left', canvas.width*.6);
@@ -190,8 +193,8 @@ function resizeCanvasSingle() {
   var orbitSumRatio=canvas.width/8.15;
   var fontVerticalAlign=(orbitSumRatio/2)-(canvas.width*0.056*0.5);
 
-  $('.orbit1, .orbit2, .orbit3').css('height', orbitSumRatio);
-  $('.orbit1, .orbit2, .orbit3').css('width', orbitSumRatio);
+  $('.orbit1, .orbit2, .orbit3, .taskTTL').css('height', orbitSumRatio);
+  $('.orbit1, .orbit2, .orbit3, .taskTTL').css('width', orbitSumRatio);
   $('.orbit1 p, .orbit2 p, .orbit3 p').css('margin-top', fontVerticalAlign+'px');
 }
 
@@ -233,6 +236,28 @@ function drawPlanitSectors(height, width, radius, position) {
   var canvas= document.getElementById('singleOrbitCanvas');
   var context= canvas.getContext('2d');
   var circle={radius: radius, centerX: width/2, centerY: height/2};
+  var orbitSumRatio=canvas.width/8.15;
+  var fontVerticalAlign=(canvas.width*0.056*0.4);
+
+  //set planit font size
+  $('.taskWrapper').css('font-size', canvas.width*.056);
+  $('.taskWrapper h4').css('font-size', canvas.width*.035);
+
+
+  //planit TTL size 
+  $('.taskTTL').css('height', orbitSumRatio*.6);
+  $('.taskTTL').css('width', orbitSumRatio*.6);
+  $('.taskTTL p').css('margin-top', fontVerticalAlign+'px');
+
+  //planit TTL size 
+  $('.smallPlanet').css('height', orbitSumRatio*1.35);
+  $('.smallPlanet').css('width', orbitSumRatio*1.35);
+  $('.mediumPlanet').css('height', orbitSumRatio*1.75);
+  $('.mediumPlanet').css('width', orbitSumRatio*1.75);
+  $('.largePlanet').css('height', orbitSumRatio*2.3);
+  $('.largePlanet').css('width', orbitSumRatio*2.3);
+  
+
 
   // convert radians to degrees because yes
   function toRadians(deg) {
