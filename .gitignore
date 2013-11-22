@@ -6,3 +6,6 @@ node_modules/
 *.log
 *.swp
 *.swo
+
+# Nothing to say here, MAC
+.DS_Store
