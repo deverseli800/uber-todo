@@ -30,7 +30,10 @@ canvas {
 /* Style the planets based on size. could abstract the background positions to make DRY*/
 
 .smallPlanet {
-	background-color:rgba(172,165,126,0.9);
+	background-color:rgba(39,49,65,0.9);
+	
+	/*background-color:rgba(248,126,34,0.7);*/
+
 }
 
 .largePlanet {
@@ -38,7 +41,7 @@ canvas {
 }
 
 .mediumPlanet {
-	background-color:rgba(39,49,65,0.9);
+	background-color:rgba(172,165,126,0.9);
 }
 
 .noShow {

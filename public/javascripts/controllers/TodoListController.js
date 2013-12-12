@@ -259,19 +259,24 @@ app.directive('planetRewrite', function() {
       angle:"@",
       offset:"@",
       planitHeight:"@",
-      planitWidth:"@"
+      planitWidth:"@",
+      planitMargin:"@",
+      ttlSize:"@",
+      ttlMargin:"@",
+      fontSize:"@",
+      fontSizeH4:"@"
     },
-    template:"<div class='taskWrapper {{show}}' style='height:10px; -webkit-transform:rotate({{angle}}deg) translate({{offset}}px) rotate(-{{angle}}deg)'>"+
+    template:"<div class='taskWrapper {{show}}' style='height:10px; font-size:{{fontSize}}px; -webkit-transform:rotate({{angle}}deg) translate({{offset}}px) rotate(-{{angle}}deg)'>"+
                 "{{todo.done}}"+
                 "<input ng-hide='true' type='checkbox' ng-model='todo.done', ng-change='update()'>"+
-                "<div class='taskPlanet {{size}}' style='height:{{planitHeight}}px; width:{{panitWidth}}px;'>"+
-                  "<div class='taskTTL'>"+
-                    "<p>{{ttl}}</p>"+
+                "<div class='taskPlanet {{size}}' style='height:{{planitHeight}}px; width:{{planitWidth}}px; margin-top:{{planitMargin}}px'>"+
+                  "<div class='taskTTL' style='height:{{ttlSize}}px; width:{{ttlSize}}px;'>"+
+                    "<p style='margin-top:{{ttlMargin}}px'>{{ttl}}</p>"+
                   "</div>"+
                 "</div>"+
                 "<div class='taskTitle'>"+
                   "{{todo.title}}"+
-                  "<h4 class='lead'>"+
+                  "<h4 class='lead' style='font-size:{{fontSizeH4}}px'>"+
                     "{{title}}"+
                   "</h4>"+
                 "</div>"+
@@ -297,25 +302,42 @@ app.directive('planetRewrite', function() {
       calculateOffset();
 
       window.addEventListener('resize', calculateOffset, false);
+     
 
 
       //assign planet illustration based on time to completion (TTL)
       attrs.$observe('ttl', function(value) {
         //calculate size of various planits
-        var orbitSumRatio=document.getElementById('singleOrbitCanvas').width/8.15;
+        var canvas=document.getElementById('singleOrbitCanvas');
+        var orbitSumRatio=canvas.width/8.15;
+        var fontVerticalAlign=(canvas.width*0.0224);
+
+        attrs.$set('ttlSize', canvas.width*.12);
+        attrs.$set('ttlMargin', canvas.width*0.025);
+        attrs.$set('fontSize', canvas.width*.05);
+        attrs.$set('fontSizeH4', canvas.width*.035);
+
         if(value<2) {
          attrs.$set('size', 'smallPlanet');
          attrs.$set('show', 'yes');
-         attrs.$set('planitHeight', orbitSumRatio);
-         attrs.$set('planitWidth', orbitSumRatio)
+         attrs.$set('planitHeight', orbitSumRatio*1.35);
+         attrs.$set('planitWidth', orbitSumRatio*1.35);
+         attrs.$set('planitMargin', orbitSumRatio*-0.675);
+
         }
         else if(value>=2 && value<4) {
           attrs.$set('size', 'mediumPlanet')
           attrs.$set('show', 'yes')
+          attrs.$set('planitHeight', orbitSumRatio*1.75);
+          attrs.$set('planitWidth', orbitSumRatio*1.75);
+          attrs.$set('planitMargin', orbitSumRatio*-0.875);
         }
         else if(value>4) {
           attrs.$set('size', 'largePlanet')
           attrs.$set('show', 'yes')
+          attrs.$set('planitHeight', orbitSumRatio*2.25);
+          attrs.$set('planitWidth', orbitSumRatio*2.25);
+          attrs.$set('planitMargin', orbitSumRatio*-1.125);
         }
         else {
           attrs.$set('size', 'noPlanet')

@@ -93,9 +93,6 @@ function resizeCanvasSingle() {
   $('.orbitLabelCircle').css('padding-top', canvas.width*0.034);
   $('.orbitLabelCircle').css('border', canvas.width*0.008+"px #d8d5d5 solid");
 
-  //$('.orbit1, .orbit2, .orbit3, .taskTTL').css('height', orbitSumRatio);
-  //$('.orbit1, .orbit2, .orbit3, .taskTTL').css('width', orbitSumRatio);
-  //$('.orbit1 p, .orbit2 p, .orbit3 p').css('margin-top', fontVerticalAlign+'px');
 }
 
 function drawCircularSingleOrbit(height, width, radius) {
@@ -127,39 +124,6 @@ function drawCircularSingleOrbit(height, width, radius) {
   $('.orbit3').css('left', canvas.width*.764);
   $('.orbit3').css('top', canvas.width*.46);
   $('.orbit3').css('font-size', canvas.width*.056);
-
-}
-
-function drawPlanitsInOrbit(height, width) {
-  var canvas= document.getElementById('singleOrbitCanvas');
-  var context= canvas.getContext('2d');
-  var orbitSumRatio=canvas.width/8.15;
-  var fontVerticalAlign=(canvas.width*0.056*0.4);
-
-  console.log('i sould be drawing the planits right now hmmmm'+orbitSumRatio);
-
-  //set planit font size
-  $('.taskWrapper').css('font-size', canvas.width*.056);
-  $('.taskWrapper h4').css('font-size', canvas.width*.035);
-
-  //planit TTL size 
-  $('.taskTTL').css('height', orbitSumRatio*.6);
-  $('.taskTTL').css('width', orbitSumRatio*.6);
-  $('.taskTTL p').css('margin-top', fontVerticalAlign+'px');
-
-  //planit TTL size 
-  $('.smallPlanet').css('height', orbitSumRatio*1.35);
-  $('.smallPlanet').css('width', orbitSumRatio*1.35);
-  $('.smallPlanet').css('margin-top', orbitSumRatio*1.35*-.5);
-  //$('.smallPlanet').css('margin-left', orbitSumRatio*1.35*-.5);
-  $('.mediumPlanet').css('height', orbitSumRatio*1.75);
-  $('.mediumPlanet').css('width', orbitSumRatio*1.75);
-  $('.mediumPlanet').css('margin-top', orbitSumRatio*1.75*-.5);
-  //$('.mediumPlanet').css('margin-left', orbitSumRatio*1.75*-.5);
-  $('.largePlanet').css('height', orbitSumRatio*2.2);
-  $('.largePlanet').css('width', orbitSumRatio*2.2);  
-  $('.largePlanet').css('margin-top', orbitSumRatio*2.2*-.5);
-  //$('.largePlanet').css('margin-left', orbitSumRatio*2.2*-.5);  
 
 }
 
