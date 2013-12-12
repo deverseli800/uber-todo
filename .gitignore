@@ -1,0 +1,11 @@
+# No need to keep node_modules bundled in the repo for now...
+# Arguments can be made to do this when you launch in production, tho
+node_modules/
+
+# Ignore log files and swap files, etc
+*.log
+*.swp
+*.swo
+
+# Nothing to say here, MAC
+.DS_Store
