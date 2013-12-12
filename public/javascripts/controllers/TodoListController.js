@@ -276,7 +276,7 @@ app.directive('planetRewrite', function() {
                 "</div>"+
                 "<div class='taskTitle'>"+
                   "{{todo.title}}"+
-                  "<h4 class='lead' style='font-size:{{fontSizeH4}}px'>"+
+                  "<h4  style='font-size:{{fontSizeH4}}px'>"+
                     "{{title}}"+
                   "</h4>"+
                 "</div>"+

@@ -17,6 +17,7 @@ a {
 	left:0;
 	right:0;
 	background-position: center;
+	font-family:"source sans pro";
 }
 
 canvas {
@@ -65,12 +66,23 @@ canvas {
 	text-align: center;
 	position: relative;
 	top:0;
+	font-family:georgia;
+	font-weight:200;
 }
+
+.taskTitle h4 {
+	font-weight:200;
+	font-family:"source sans pro";
+	letter-spacing:0.5px;
+}
+
+
 
 
 .taskTTL h1,.taskTTL h2, .taskTTL h3, .taskTTL h4 {
 	margin-top:0;
 	margin-bottom:0;
+
 	
 }
 
