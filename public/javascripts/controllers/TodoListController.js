@@ -1,7 +1,7 @@
 var app= angular.module('TodoModule', ['ui.bootstrap']);
 
-function TodoListController($scope, $http, $filter) {
 
+function TodoListController($scope, $http, $filter) {  
   //show or hide add task form 
   $scope.showForm=true;
 
@@ -11,7 +11,6 @@ function TodoListController($scope, $http, $filter) {
   }
 
   $scope.todos = [];
-
 
   $scope.newTodo = {
     title: '',
@@ -25,7 +24,9 @@ function TodoListController($scope, $http, $filter) {
 
   $scope.orbits=[{name:3, remainder:0, sum:0, tasks:0},{name:2, remainder:0, sum:0, tasks:0},{name:1, remainder:0, sum:0, tasks:0}];
   $scope.selectedOrbit=$scope.orbits[0];
-
+  $scope.$watch('selectedOrbit',function(orbit){
+    //resizeCanvasSingle();
+  })
   $scope.doneFilter = { done : true };
 
   $scope.notDoneFilter = { done : false };
@@ -192,7 +193,6 @@ function TodoListController($scope, $http, $filter) {
       var taskAngle=360/(tasksInOrbit.length);
       for (var i = tasksInOrbit.length - 1; i >= 0; i--) {
         tasksInOrbit[i].angle=taskAngle*i;
-        //console.log(tasksInOrbit[i].title+":"+tasksInOrbit[i].angle);
         $scope.update(tasksInOrbit[i]);
       };
 
@@ -257,12 +257,31 @@ app.directive('planetRewrite', function() {
       title:"@",
       orbit:"@",
       angle:"@",
-      offset:"@"
+      offset:"@",
+      planitHeight:"@",
+      planitWidth:"@"
     },
-    template:"<div class='taskWrapper {{show}} ' style='height:10px; -webkit-transform:rotate({{angle}}deg)"+ 
-              "translate({{offset}}px) rotate(-{{angle}}deg)'>{{todo.done}}<input ng-hide='true' type='checkbox' ng-model='todo.done', ng-change='update()' >"+
-              "<div class='taskPlanet {{size}}'><div class='taskTTL'><p>{{ttl}}</p></div></div><div class='taskTitle'>{{todo.title}}<h4 class='lead'>"+
-              "{{title}}</h4></div><div ng-show='showTaskMenu'><br /><button class='btn btn-danger'>Delete</button></div></div>",
+    template:"<div class='taskWrapper {{show}}' style='height:10px; -webkit-transform:rotate({{angle}}deg) translate({{offset}}px) rotate(-{{angle}}deg)'>"+
+                "{{todo.done}}"+
+                "<input ng-hide='true' type='checkbox' ng-model='todo.done', ng-change='update()'>"+
+                "<div class='taskPlanet {{size}}' style='height:{{planitHeight}}px; width:{{panitWidth}}px;'>"+
+                  "<div class='taskTTL'>"+
+                    "<p>{{ttl}}</p>"+
+                  "</div>"+
+                "</div>"+
+                "<div class='taskTitle'>"+
+                  "{{todo.title}}"+
+                  "<h4 class='lead'>"+
+                    "{{title}}"+
+                  "</h4>"+
+                "</div>"+
+                "<div ng-show='showTaskMenu'>"+
+                  "<br />"+
+                  "<button class='btn btn-danger'>"+
+                    "Delete"+
+                  "</button>"+
+                "</div>"+
+              "</div>",
     link:function(scope, element, attrs) {
       scope.showTaskMenu=false;
       scope.toggleTaskMenu=function() {
@@ -282,9 +301,13 @@ app.directive('planetRewrite', function() {
 
       //assign planet illustration based on time to completion (TTL)
       attrs.$observe('ttl', function(value) {
+        //calculate size of various planits
+        var orbitSumRatio=document.getElementById('singleOrbitCanvas').width/8.15;
         if(value<2) {
-         attrs.$set('size', 'smallPlanet')
-         attrs.$set('show', 'yes')
+         attrs.$set('size', 'smallPlanet');
+         attrs.$set('show', 'yes');
+         attrs.$set('planitHeight', orbitSumRatio);
+         attrs.$set('planitWidth', orbitSumRatio)
         }
         else if(value>=2 && value<4) {
           attrs.$set('size', 'mediumPlanet')

@@ -78,15 +78,24 @@ function resizeCanvasSingle() {
   canvas.width=solarWrapperWidth;
   canvas.height=solarWrapperWidth*1.775;
   drawCircularSingleOrbit(canvas.height, canvas.width, canvas.width);
-  drawPlanitsInOrbit(canvas.height, canvas.width);
+  //drawPlanitsInOrbit(canvas.height, canvas.width);
   
   //draw the orbit sums
   var orbitSumRatio=canvas.width/8.15;
   var fontVerticalAlign=(orbitSumRatio/2)-(canvas.width*0.056*0.5);
 
-  $('.orbit1, .orbit2, .orbit3, .taskTTL').css('height', orbitSumRatio);
-  $('.orbit1, .orbit2, .orbit3, .taskTTL').css('width', orbitSumRatio);
-  $('.orbit1 p, .orbit2 p, .orbit3 p').css('margin-top', fontVerticalAlign+'px');
+  //orbitLabel Styles
+  $('.orbitLabel h2').css('font-size', canvas.width*0.045);
+  $('.orbitLabel p').css('font-size', canvas.width*0.037);
+  $('.orbitLabel').css('margin-top', canvas.width*-0.121);
+  $('.orbitLabelCircle').css('width', canvas.width*0.2);
+  $('.orbitLabelCircle').css('height', canvas.width*0.2);
+  $('.orbitLabelCircle').css('padding-top', canvas.width*0.034);
+  $('.orbitLabelCircle').css('border', canvas.width*0.008+"px #d8d5d5 solid");
+
+  //$('.orbit1, .orbit2, .orbit3, .taskTTL').css('height', orbitSumRatio);
+  //$('.orbit1, .orbit2, .orbit3, .taskTTL').css('width', orbitSumRatio);
+  //$('.orbit1 p, .orbit2 p, .orbit3 p').css('margin-top', fontVerticalAlign+'px');
 }
 
 function drawCircularSingleOrbit(height, width, radius) {
@@ -118,6 +127,7 @@ function drawCircularSingleOrbit(height, width, radius) {
   $('.orbit3').css('left', canvas.width*.764);
   $('.orbit3').css('top', canvas.width*.46);
   $('.orbit3').css('font-size', canvas.width*.056);
+
 }
 
 function drawPlanitsInOrbit(height, width) {
@@ -127,15 +137,6 @@ function drawPlanitsInOrbit(height, width) {
   var fontVerticalAlign=(canvas.width*0.056*0.4);
 
   console.log('i sould be drawing the planits right now hmmmm'+orbitSumRatio);
-
-  //orbitLabel Styles
-  $('.orbitLabel h2').css('font-size', canvas.width*0.045);
-  $('.orbitLabel p').css('font-size', canvas.width*0.037);
-  $('.orbitLabel').css('margin-top', canvas.width*-0.121);
-  $('.orbitLabelCircle').css('width', canvas.width*0.2);
-  $('.orbitLabelCircle').css('height', canvas.width*0.2);
-  $('.orbitLabelCircle').css('padding-top', canvas.width*0.034);
-  $('.orbitLabelCircle').css('border', canvas.width*0.008+"px #d8d5d5 solid");
 
   //set planit font size
   $('.taskWrapper').css('font-size', canvas.width*.056);
@@ -164,8 +165,9 @@ function drawPlanitsInOrbit(height, width) {
 
 //draw the planits onload
 
-$( document ).ready(function() {
+$(function() {
     resizeCanvas();
     resizeCanvasSingle();
+     //setTimeout(function(){resizeCanvasSingle()},100);
 });
 
