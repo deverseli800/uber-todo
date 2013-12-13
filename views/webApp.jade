@@ -49,7 +49,7 @@ block content
           p {{selectedOrbit.tasks}} Tasks  
           p {{selectedOrbit.sum}} Hours
         canvas(id="singleOrbitCanvas")
-        planet-rewrite(ng-repeat="todo in todos | filter:isOrbit(selectedOrbit.name)", angle="{{todo.angle}}", ttl="{{todo.ttl}}", title="{{todo.title}}", orbit="{{selectedOrbit.name}}", ng-click="toggleTaskMenu()", update="finishTask(todo)")
+        planet-rewrite(ng-repeat="todo in todos | filter:isOrbit(selectedOrbit.name) | filter:notDoneFilter", angle="{{todo.angle}}", ttl="{{todo.ttl}}", title="{{todo.title}}", orbit="{{selectedOrbit.name}}", ng-click="toggleTaskMenu()", update="finishTask(todo)", show="{{todo.done}}")
     div.row
       div.col-lg-4#solarWrapper
         canvas(id="solarCanvas")

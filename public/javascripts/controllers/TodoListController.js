@@ -24,9 +24,7 @@ function TodoListController($scope, $http, $filter) {
 
   $scope.orbits=[{name:3, remainder:0, sum:0, tasks:0},{name:2, remainder:0, sum:0, tasks:0},{name:1, remainder:0, sum:0, tasks:0}];
   $scope.selectedOrbit=$scope.orbits[0];
-  $scope.$watch('selectedOrbit',function(orbit){
-    //resizeCanvasSingle();
-  })
+  
   $scope.doneFilter = { done : true };
 
   $scope.notDoneFilter = { done : false };
@@ -114,6 +112,7 @@ function TodoListController($scope, $http, $filter) {
         alert(JSON.stringify(data));
       }
     });
+
     //redo the angles of planits
     $scope.setOrbitAngle();
   };
@@ -266,9 +265,8 @@ app.directive('planetRewrite', function() {
       fontSize:"@",
       fontSizeH4:"@"
     },
-    template:"<div class='taskWrapper {{show}}' style='height:10px; font-size:{{fontSize}}px; -webkit-transform:rotate({{angle}}deg) translate({{offset}}px) rotate(-{{angle}}deg)'>"+
+    template:"<div class='taskWrapper' style='height:10px; font-size:{{fontSize}}px; -webkit-transform:rotate({{angle}}deg) translate({{offset}}px) rotate(-{{angle}}deg)'>"+
                 "{{todo.done}}"+
-                "<input ng-hide='true' type='checkbox' ng-model='todo.done', ng-change='update()'>"+
                 "<div class='taskPlanet {{size}}' style='height:{{planitHeight}}px; width:{{planitWidth}}px; margin-top:{{planitMargin}}px'>"+
                   "<div class='taskTTL' style='height:{{ttlSize}}px; width:{{ttlSize}}px;'>"+
                     "<p style='margin-top:{{ttlMargin}}px'>{{ttl}}</p>"+
@@ -282,7 +280,7 @@ app.directive('planetRewrite', function() {
                 "</div>"+
                 "<div ng-show='showTaskMenu'>"+
                   "<br />"+
-                  "<button class='btn btn-danger'>"+
+                  "<button class='btn btn-danger' ng-click='todo.done=!todo.done; update(todo)'>"+
                     "Delete"+
                   "</button>"+
                 "</div>"+
@@ -303,8 +301,6 @@ app.directive('planetRewrite', function() {
 
       window.addEventListener('resize', calculateOffset, false);
      
-
-
       //assign planet illustration based on time to completion (TTL)
       attrs.$observe('ttl', function(value) {
         //calculate size of various planits
