@@ -186,8 +186,9 @@ function TodoListController($scope, $http, $filter) {
 
   $scope.setOrbitAngle=function() {
     angular.forEach($scope.orbits, function(orbit) {
+      console.log('setting orbit angle');
       var tasksNotDone=$filter('filter') ($scope.todos, $scope.notDoneFilter);
-      var tasksInOrbit= $filter('filter') ($scope.todos,$scope.isOrbit(orbit.name));
+      var tasksInOrbit= $filter('filter') (tasksNotDone,$scope.isOrbit(orbit.name));
       var taskAngle=360/(tasksInOrbit.length);
       console.log(tasksNotDone);
       for (var i = tasksInOrbit.length - 1; i >= 0; i--) {
@@ -247,7 +248,6 @@ app.directive('planetRewrite', function() {
   return {
     restrict:"E",
     scope:{
-      isDone:"=",
       ttl:"@",
       size:"@",
       update:"&",
@@ -294,7 +294,6 @@ app.directive('planetRewrite', function() {
         var canvasWidth=document.getElementById('singleOrbitCanvas').width;
         var offset=canvasWidth*.375;
         attrs.$set('offset', offset);
-        console.log('hi');
       }
 
       calculateOffset();
