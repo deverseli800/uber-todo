@@ -11,7 +11,7 @@ block content
         h1 Add a Task
     div.row(ng-show="showForm")
       div.col-lg-4
-        form.form(name="taskForm", novalidate, ng-submit="addNewTodo()")
+        form.form(name="taskForm", novalidate, ng-submit="addNewTodo();")
           div.form-group
             Label Title
             input.form-control(type="text", ng-model="newTodo.title", placeholder="task title") 

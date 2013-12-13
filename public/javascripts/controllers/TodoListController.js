@@ -17,10 +17,6 @@ function TodoListController($scope, $http, $filter) {
     angle:''
   };
 
-  $scope.alert= function() {
-    alert('yes');
-  }
-
   $scope.orbits=[{name:3, remainder:0, sum:0, tasks:0},{name:2, remainder:0, sum:0, tasks:0},{name:1, remainder:0, sum:0, tasks:0}];
   $scope.selectedOrbit=$scope.orbits[0];
   
@@ -43,8 +39,8 @@ function TodoListController($scope, $http, $filter) {
     });
   };
 
-
   $scope.updateList = function() {
+    console.log('i am updating this list yall');
     $http.get('/todos.json').success(function(data) {
       $scope.todos = data.todos;
     });
@@ -92,6 +88,9 @@ function TodoListController($scope, $http, $filter) {
         $scope.newTodo.orbit=3;
       }
     }
+
+    //console.log('my angle is now'+$scope.newTodo.angle); 
+
     angular.forEach($scope.orbits, function(orbit) {
       if($scope.newTodo.orbit==orbit.name) {
         var ttl= parseInt($scope.newTodo.ttl);
@@ -105,14 +104,14 @@ function TodoListController($scope, $http, $filter) {
       if (data.todo) {
         $scope.todos.push(data.todo);
         $scope.newTodo.description = '';
+        //redo the angles of planits
+        $scope.setOrbitAngle();
       } 
       else {
         alert(JSON.stringify(data));
       }
     });
-
-    //redo the angles of planits
-    $scope.setOrbitAngle();
+    
   };
 
   //filter data by task.orbit 
@@ -190,7 +189,6 @@ function TodoListController($scope, $http, $filter) {
       var tasksNotDone=$filter('filter') ($scope.todos, $scope.notDoneFilter);
       var tasksInOrbit= $filter('filter') (tasksNotDone,$scope.isOrbit(orbit.name));
       var taskAngle=360/(tasksInOrbit.length);
-      console.log(tasksNotDone);
       for (var i = tasksInOrbit.length - 1; i >= 0; i--) {
         tasksInOrbit[i].angle=taskAngle*i;
         $scope.update(tasksInOrbit[i]);
@@ -277,8 +275,7 @@ app.directive('planetRewrite', function() {
                     "{{title}}"+
                   "</h4>"+
                 "</div>"+
-                "<div ng-show='showTaskMenu'>"+
-                  "<br />"+
+                "<div class='taskOptions' ng-show='showTaskMenu'>"+
                   "<button class='btn btn-danger' ng-model='todo.done' ng-click='deleteTask()''>"+
                     "Delete"+
                   "</button>"+
@@ -297,8 +294,6 @@ app.directive('planetRewrite', function() {
       }
 
       calculateOffset();
-
-      window.addEventListener('resize', scope.alert, false);
      
       //assign planet illustration based on time to completion (TTL)
       attrs.$observe('ttl', function(value) {

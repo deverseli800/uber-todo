@@ -20,6 +20,13 @@ a {
 	font-family:"source sans pro";
 }
 
+.taskOptions {
+	left:42%;
+	width:60px;
+	position:relative;
+}
+
+
 canvas {
 	background-color:#212020;
 }
