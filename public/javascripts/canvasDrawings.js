@@ -90,7 +90,7 @@ function resizeCanvasSingle() {
   $('.orbitLabel').css('margin-top', canvas.width*-0.121);
   $('.orbitLabelCircle').css('width', canvas.width*0.2);
   $('.orbitLabelCircle').css('height', canvas.width*0.2);
-  $('.orbitLabelCircle').css('padding-top', canvas.width*0.034);
+  $('.orbitLabelCircle').css('padding-top', canvas.width*0.035);
   $('.orbitLabelCircle').css('border', canvas.width*0.008+"px #d8d5d5 solid");
 
 }

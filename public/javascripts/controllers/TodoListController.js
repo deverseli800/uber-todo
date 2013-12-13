@@ -88,9 +88,7 @@ function TodoListController($scope, $http, $filter) {
         $scope.newTodo.orbit=3;
       }
     }
-
     //console.log('my angle is now'+$scope.newTodo.angle); 
-
     angular.forEach($scope.orbits, function(orbit) {
       if($scope.newTodo.orbit==orbit.name) {
         var ttl= parseInt($scope.newTodo.ttl);
@@ -160,10 +158,10 @@ function TodoListController($scope, $http, $filter) {
     angular.forEach($scope.orbits, function(orbit) {
       var remainder= 8;
       var sum=0;
-      var totalTasks=$filter('filter') ($scope.todos,$scope.isOrbit(orbit.name));
-      console.log(totalTasks.length);
+      var tasksNotDone=$filter('filter') ($scope.todos, $scope.notDoneFilter);
+      var totalTasks= $filter('filter') (tasksNotDone,$scope.isOrbit(orbit.name));
       //iterate through todos and orbits and add up TTLs
-      angular.forEach($scope.todos, function(todo){
+      angular.forEach(tasksNotDone, function(todo){
         //console.log('the current task im looking at is '+todo.title+', and it has a ttl of '+todo.ttl);
         if(todo.orbit==orbit.name){ 
             sum= sum+todo.ttl;
@@ -322,7 +320,7 @@ app.directive('planetRewrite', function() {
           attrs.$set('planitWidth', orbitSumRatio*1.75);
           attrs.$set('planitMargin', orbitSumRatio*-0.875);
         }
-        else if(value>4) {
+        else if(value>=4) {
           attrs.$set('size', 'largePlanet')
           attrs.$set('show', 'yes')
           attrs.$set('planitHeight', orbitSumRatio*2.25);
