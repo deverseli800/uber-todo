@@ -41,7 +41,7 @@ block content
               input(type="checkbox", ng-model="todo.done", ng-change="update(todo)")
               task(title='{{todo.title}}', description='{{todo.description}}', due="{{todo.due}}", ttl="{{todo.ttl | number}}", orbit="{{todo.orbit}}")
       div.col-lg-4#singleOrbitWrapper
-        select(ng-model="selectedOrbit", ng-options="orbit.name for orbit in orbits", ng-change="alert('hi')") 
+        select(ng-model="selectedOrbit", ng-options="orbit.name for orbit in orbits") 
         div.orbitLabel
           div.orbitLabelCircle
             h2 {{selectedOrbit.name}}
@@ -49,7 +49,7 @@ block content
           p {{selectedOrbit.tasks}} Tasks  
           p {{selectedOrbit.sum}} Hours
         canvas(id="singleOrbitCanvas")
-        planet-rewrite(ng-repeat="todo in todos | filter:isOrbit(selectedOrbit.name) | filter:notDoneFilter", angle="{{todo.angle}}", ttl="{{todo.ttl}}", title="{{todo.title}}", orbit="{{selectedOrbit.name}}", ng-click="toggleTaskMenu()", update="finishTask(todo)", show="{{todo.done}}")
+        planet-rewrite(ng-repeat="todo in todos | filter:isOrbit(selectedOrbit.name) | filter:notDoneFilter", delete-task="todo.done=!todo.done" is-done="todo.done", angle="{{todo.angle}}", ttl="{{todo.ttl}}", title="{{todo.title}}", orbit="{{selectedOrbit.name}}", ng-click="toggleTaskMenu()", update="finishTask(todo)", show="{{todo.done}}")
     div.row
       div.col-lg-4#solarWrapper
         canvas(id="solarCanvas")
