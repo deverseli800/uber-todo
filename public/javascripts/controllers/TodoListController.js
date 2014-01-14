@@ -1,17 +1,11 @@
 var app= angular.module('TodoModule', ['ui.bootstrap']);
 
-function TodoListController($scope, $http, $filter) {
 
+function TodoListController($scope, $http, $filter) {  
   //show or hide add task form 
   $scope.showForm=true;
 
-  $scope.finishTask=function(todo) {
-    todo.done=! todo.done;
-    $scope.update(todo);
-  }
-
   $scope.todos = [];
-
 
   $scope.newTodo = {
     title: '',
@@ -25,7 +19,7 @@ function TodoListController($scope, $http, $filter) {
 
   $scope.orbits=[{name:3, remainder:0, sum:0, tasks:0},{name:2, remainder:0, sum:0, tasks:0},{name:1, remainder:0, sum:0, tasks:0}];
   $scope.selectedOrbit=$scope.orbits[0];
-
+  
   $scope.doneFilter = { done : true };
 
   $scope.notDoneFilter = { done : false };
@@ -38,7 +32,6 @@ function TodoListController($scope, $http, $filter) {
 
   $scope.update = function(todo) {
     console.log('calling update');
-    console.log(todo);
     $http.put('/todo/' + todo._id + '.json', todo).success(function(data) {
       if (!data.todo) {
         alert(JSON.stringify(data));
@@ -46,8 +39,8 @@ function TodoListController($scope, $http, $filter) {
     });
   };
 
-
   $scope.updateList = function() {
+    console.log('i am updating this list yall');
     $http.get('/todos.json').success(function(data) {
       $scope.todos = data.todos;
     });
@@ -95,6 +88,7 @@ function TodoListController($scope, $http, $filter) {
         $scope.newTodo.orbit=3;
       }
     }
+    //console.log('my angle is now'+$scope.newTodo.angle); 
     angular.forEach($scope.orbits, function(orbit) {
       if($scope.newTodo.orbit==orbit.name) {
         var ttl= parseInt($scope.newTodo.ttl);
@@ -108,13 +102,14 @@ function TodoListController($scope, $http, $filter) {
       if (data.todo) {
         $scope.todos.push(data.todo);
         $scope.newTodo.description = '';
+        //redo the angles of planits
+        $scope.setOrbitAngle();
       } 
       else {
         alert(JSON.stringify(data));
       }
     });
-    //redo the angles of planits
-    $scope.setOrbitAngle();
+    
   };
 
   //filter data by task.orbit 
@@ -163,10 +158,10 @@ function TodoListController($scope, $http, $filter) {
     angular.forEach($scope.orbits, function(orbit) {
       var remainder= 8;
       var sum=0;
-      var totalTasks=$filter('filter') ($scope.todos,$scope.isOrbit(orbit.name));
-      console.log(totalTasks.length);
+      var tasksNotDone=$filter('filter') ($scope.todos, $scope.notDoneFilter);
+      var totalTasks= $filter('filter') (tasksNotDone,$scope.isOrbit(orbit.name));
       //iterate through todos and orbits and add up TTLs
-      angular.forEach($scope.todos, function(todo){
+      angular.forEach(tasksNotDone, function(todo){
         //console.log('the current task im looking at is '+todo.title+', and it has a ttl of '+todo.ttl);
         if(todo.orbit==orbit.name){ 
             sum= sum+todo.ttl;
@@ -187,18 +182,16 @@ function TodoListController($scope, $http, $filter) {
   }
 
   $scope.setOrbitAngle=function() {
-     angular.forEach($scope.orbits, function(orbit) {
-      var tasksInOrbit= $filter('filter') ($scope.todos,$scope.isOrbit(orbit.name));
+    angular.forEach($scope.orbits, function(orbit) {
+      console.log('setting orbit angle');
+      var tasksNotDone=$filter('filter') ($scope.todos, $scope.notDoneFilter);
+      var tasksInOrbit= $filter('filter') (tasksNotDone,$scope.isOrbit(orbit.name));
       var taskAngle=360/(tasksInOrbit.length);
       for (var i = tasksInOrbit.length - 1; i >= 0; i--) {
         tasksInOrbit[i].angle=taskAngle*i;
-        //console.log(tasksInOrbit[i].title+":"+tasksInOrbit[i].angle);
         $scope.update(tasksInOrbit[i]);
       };
-
-      })
-
-      
+    })   
   }
 
 }  
@@ -257,12 +250,35 @@ app.directive('planetRewrite', function() {
       title:"@",
       orbit:"@",
       angle:"@",
-      offset:"@"
+      offset:"@",
+      planitHeight:"@",
+      planitWidth:"@",
+      planitMargin:"@",
+      ttlSize:"@",
+      ttlMargin:"@",
+      fontSize:"@",
+      fontSizeH4:"@",
+      deleteTask:"&"
     },
-    template:"<div class='taskWrapper {{show}} ' style='height:10px; -webkit-transform:rotate({{angle}}deg)"+ 
-              "translate({{offset}}px) rotate(-{{angle}}deg)'>{{todo.done}}<input ng-hide='true' type='checkbox' ng-model='todo.done', ng-change='update()' >"+
-              "<div class='taskPlanet {{size}}'><div class='taskTTL'><p>{{ttl}}</p></div></div><div class='taskTitle'>{{todo.title}}<h4 class='lead'>"+
-              "{{title}}</h4></div><div ng-show='showTaskMenu'><br /><button class='btn btn-danger'>Delete</button></div></div>",
+    template:"<div class='taskWrapper' style='height:10px; font-size:{{fontSize}}px; -webkit-transform:rotate({{angle}}deg) translate({{offset}}px) rotate(-{{angle}}deg)'>"+
+                "{{todo.done}}"+
+                "<div class='taskPlanet {{size}}' style='height:{{planitHeight}}px; width:{{planitWidth}}px; margin-top:{{planitMargin}}px'>"+
+                  "<div class='taskTTL' style='height:{{ttlSize}}px; width:{{ttlSize}}px;'>"+
+                    "<p style='margin-top:{{ttlMargin}}px'>{{ttl}}</p>"+
+                  "</div>"+
+                "</div>"+
+                "<div class='taskTitle'>"+
+                  "{{todo.title}}"+
+                  "<h4  style='font-size:{{fontSizeH4}}px'>"+
+                    "{{title}}"+
+                  "</h4>"+
+                "</div>"+
+                "<div class='taskOptions' ng-show='showTaskMenu'>"+
+                  "<button class='btn btn-danger' ng-model='todo.done' ng-click='deleteTask()''>"+
+                    "Delete"+
+                  "</button>"+
+                "</div>"+
+              "</div>",
     link:function(scope, element, attrs) {
       scope.showTaskMenu=false;
       scope.toggleTaskMenu=function() {
@@ -276,23 +292,40 @@ app.directive('planetRewrite', function() {
       }
 
       calculateOffset();
-
-      window.addEventListener('resize', calculateOffset, false);
-
-
+     
       //assign planet illustration based on time to completion (TTL)
       attrs.$observe('ttl', function(value) {
+        //calculate size of various planits
+        var canvas=document.getElementById('singleOrbitCanvas');
+        var orbitSumRatio=canvas.width/8.15;
+        var fontVerticalAlign=(canvas.width*0.0224);
+
+        attrs.$set('ttlSize', canvas.width*.12);
+        attrs.$set('ttlMargin', canvas.width*0.025);
+        attrs.$set('fontSize', canvas.width*.05);
+        attrs.$set('fontSizeH4', canvas.width*.035);
+
         if(value<2) {
-         attrs.$set('size', 'smallPlanet')
-         attrs.$set('show', 'yes')
+         attrs.$set('size', 'smallPlanet');
+         attrs.$set('show', 'yes');
+         attrs.$set('planitHeight', orbitSumRatio*1.35);
+         attrs.$set('planitWidth', orbitSumRatio*1.35);
+         attrs.$set('planitMargin', orbitSumRatio*-0.675);
+
         }
         else if(value>=2 && value<4) {
           attrs.$set('size', 'mediumPlanet')
           attrs.$set('show', 'yes')
+          attrs.$set('planitHeight', orbitSumRatio*1.75);
+          attrs.$set('planitWidth', orbitSumRatio*1.75);
+          attrs.$set('planitMargin', orbitSumRatio*-0.875);
         }
-        else if(value>4) {
+        else if(value>=4) {
           attrs.$set('size', 'largePlanet')
           attrs.$set('show', 'yes')
+          attrs.$set('planitHeight', orbitSumRatio*2.25);
+          attrs.$set('planitWidth', orbitSumRatio*2.25);
+          attrs.$set('planitMargin', orbitSumRatio*-1.125);
         }
         else {
           attrs.$set('size', 'noPlanet')

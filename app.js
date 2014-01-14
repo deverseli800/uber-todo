@@ -9,7 +9,13 @@ var express = require('express')
   , http = require('http')
   , path = require('path');
 
+/**
+ * Create a new instance of the express app, but also export
+ * it as a node module so that grunt-express can spin off 
+ * a new instance.
+ */
 var app = express();
+module.exports = app;
 
 var Mongoose = require('mongoose');
 var db = Mongoose.createConnection('localhost', 'mytestapp');
@@ -42,6 +48,11 @@ app.put('/todo/:id.json', routes.update(Todo));
 
 app.post('/todo.json', routes.addTodo(Todo));
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
-});
+// Only create server instance in production. For development let grunt-express launch
+// the instance so it can do cool things like inject livereload middleware into the
+// server's request stack!
+//if ('production' == app.get('env')) {
+  http.createServer(app).listen(app.get('port'), function(){
+    console.log('Express server listening on port ' + app.get('port'));
+  });
+//}

@@ -17,7 +17,15 @@ a {
 	left:0;
 	right:0;
 	background-position: center;
+	font-family:"source sans pro";
 }
+
+.taskOptions {
+	left:42%;
+	width:60px;
+	position:relative;
+}
+
 
 canvas {
 	background-color:#212020;
@@ -30,7 +38,10 @@ canvas {
 /* Style the planets based on size. could abstract the background positions to make DRY*/
 
 .smallPlanet {
-	background-color:rgba(172,165,126,0.9);
+	background-color:rgba(39,49,65,0.9);
+	
+	/*background-color:rgba(248,126,34,0.7);*/
+
 }
 
 .largePlanet {
@@ -38,7 +49,7 @@ canvas {
 }
 
 .mediumPlanet {
-	background-color:rgba(39,49,65,0.9);
+	background-color:rgba(172,165,126,0.9);
 }
 
 .noShow {
@@ -62,12 +73,23 @@ canvas {
 	text-align: center;
 	position: relative;
 	top:0;
+	font-family:georgia;
+	font-weight:200;
 }
+
+.taskTitle h4 {
+	font-weight:200;
+	font-family:"source sans pro";
+	letter-spacing:0.5px;
+}
+
+
 
 
 .taskTTL h1,.taskTTL h2, .taskTTL h3, .taskTTL h4 {
 	margin-top:0;
 	margin-bottom:0;
+
 	
 }
 
