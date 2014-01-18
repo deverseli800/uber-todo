@@ -42,7 +42,7 @@ exports.get = function(Todo) {
     Todo.find({}, function(error, todos) {
       res.json({ todos : todos });
     });
-  }
+  };
 };
 
 exports.update = function(Todo) {
@@ -63,5 +63,5 @@ exports.update = function(Todo) {
         });
       }
     });
-  }
+  };
 };

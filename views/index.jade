@@ -1,8 +1,9 @@
-  extends layout
+extends layout
 
 block head
 
   script(type='text/javascript', src='/javascripts/controllers/TodoListController.js')
+  script(type='text/javascript', src='/javascripts/directives/PlanetRewrite.js')
 
 block content
   div.container(ng-controller="TodoListController", ng-init="setTodos( #{JSON.stringify(todos)}); ")
