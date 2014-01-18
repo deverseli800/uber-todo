@@ -1,51 +1,46 @@
-var app= angular.module('TodoModule', ['ui.bootstrap']);
+var app = angular.module('TodoModule', ['ui.bootstrap']);
 
-
-function TodoListController($scope, $http, $filter) {  
+function TodoListController($scope, $http, $filter) {
   //show or hide add task form 
-  $scope.showForm=true;
-
+  $scope.showForm = true;
   $scope.todos = [];
-
   $scope.newTodo = {
     title: '',
     done : false,
     due : new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
     description : '',
     orbit: '',
-    ttl:'',
-    angle:''
+    ttl: '',
+    angle: ''
   };
 
-  $scope.orbits=[{name:3, remainder:0, sum:0, tasks:0},{name:2, remainder:0, sum:0, tasks:0},{name:1, remainder:0, sum:0, tasks:0}];
-  $scope.selectedOrbit=$scope.orbits[0];
-  
+  $scope.orbits = [{name: 3, remainder: 0, sum: 0, tasks: 0}, {name: 2, remainder: 0, sum: 0, tasks: 0}, {name: 1, remainder: 0, sum: 0, tasks: 0}];
+  $scope.selectedOrbit = $scope.orbits[0];
   $scope.doneFilter = { done : true };
-
   $scope.notDoneFilter = { done : false };
 
-  $scope.setTodos = function(todos) {
+  $scope.setTodos = function (todos) {
     $scope.todos = todos;
     $scope.calculateRemainder();
     $scope.setOrbitAngle();
   };
 
-  $scope.update = function(todo) {
+  $scope.update = function (todo) {
     console.log('calling update');
-    $http.put('/todo/' + todo._id + '.json', todo).success(function(data) {
+    $http.put('/todo/' + todo._id + '.json', todo).success(function (data) {
       if (!data.todo) {
         alert(JSON.stringify(data));
       }
     });
   };
 
-  $scope.updateList = function() {
+  $scope.updateList = function () {
     console.log('i am updating this list yall');
-    $http.get('/todos.json').success(function(data) {
+    $http.get('/todos.json').success(function (data) {
       $scope.todos = data.todos;
     });
 
-    setInterval(function() {
+    setInterval(function () {
       $scope.updateList();
       $scope.$apply();
     }, 30 * 60 * 1000); // update every 30 minutes;
@@ -53,39 +48,35 @@ function TodoListController($scope, $http, $filter) {
 
   $scope.updateList();
 
-  $scope.areSameDate=function(d1, d2) {
-    return d1.getFullYear() == d2.getFullYear()
-      && d1.getMonth() == d2.getMonth()
-      && d1.getDate() == d2.getDate();
-  }
+  $scope.areSameDate = function (d1, d2) {
+    return d1.getFullYear() === d2.getFullYear() && d1.getMonth() === d2.getMonth() && d1.getDate() === d2.getDate();
+  };
 
-  $scope.areSameWeek=function(today, d2) {
+  $scope.areSameWeek = function (today, d2) {
     //Get the date value of next week.
     var nextWeek = Date.parse(new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7));
-    var todayParsed= Date.parse(new Date(today.getFullYear(), today.getMonth(), today.getDate()));
-    var compareDate=Date.parse(new Date(d2.getFullYear(), d2.getMonth(), d2.getDate()));
+    var todayParsed = Date.parse(new Date(today.getFullYear(), today.getMonth(), today.getDate()));
+    var compareDate = Date.parse(new Date(d2.getFullYear(), d2.getMonth(), d2.getDate()));
     if (nextWeek > compareDate) {
       return true;
     }
-    else {
-      return false;
-    }  
-  }
+    return false;
+  };
 
 
   $scope.addNewTodo = function() {
-    var today= new Date();
+    var today = new Date();
     //assign orbit based on the newtodo.due
     //if the task is due today, make the orbit 1
-    if($scope.areSameDate(today, $scope.newTodo.due)==true) {
-      $scope.newTodo.orbit=1;
+    if($scope.areSameDate(today, $scope.newTodo.due) === true) {
+      $scope.newTodo.orbit = 1;
     } 
     else{
-      if ($scope.areSameWeek(today, $scope.newTodo.due)==true){
-        $scope.newTodo.orbit=2;
+      if ($scope.areSameWeek(today, $scope.newTodo.due) === true){
+        $scope.newTodo.orbit = 2;
       } 
       else{
-        $scope.newTodo.orbit=3;
+        $scope.newTodo.orbit = 3;
       }
     }
     //console.log('my angle is now'+$scope.newTodo.angle); 
@@ -96,7 +87,7 @@ function TodoListController($scope, $http, $filter) {
         orbit.sum=ttl+sum;
         orbit.tasks=orbit.tasks+1;
       }
-    })
+    });
     //send the data to the json 
     $http.post('/todo.json', $scope.newTodo).success(function(data) {
       if (data.todo) {
@@ -118,8 +109,8 @@ function TodoListController($scope, $http, $filter) {
     var orbitNumber= parseInt(orbitId);
     return function(todo) {
         return todo.orbit == orbitNumber;
-    }
-  }
+    };
+  };
 
   $scope.assignNewOrbits=function(orbit, other) {
     angular.forEach($scope.todos, function(todo){
@@ -130,7 +121,7 @@ function TodoListController($scope, $http, $filter) {
       else {
       }
     });
-  }
+  };
 
 
   $scope.reSort=function() {
@@ -151,7 +142,7 @@ function TodoListController($scope, $http, $filter) {
       $scope.assignNewOrbits(orbit, other);
       $scope.calculateRemainder();
     }); 
-  }
+  };
 
   $scope.calculateRemainder=function () {
     console.log('calculating remainder');
@@ -166,7 +157,7 @@ function TodoListController($scope, $http, $filter) {
         if(todo.orbit==orbit.name){ 
             sum= sum+todo.ttl;
           }
-      })
+      });
       //set remainder as 8 minues sum of TTLs 
       remainder=remainder-sum;
       //remainder cannot be negative
@@ -178,8 +169,8 @@ function TodoListController($scope, $http, $filter) {
       }
       orbit.sum=sum;
       orbit.tasks=totalTasks.length;
-   })
-  }
+   });
+  };
 
   $scope.setOrbitAngle=function() {
     angular.forEach($scope.orbits, function(orbit) {
@@ -190,9 +181,9 @@ function TodoListController($scope, $http, $filter) {
       for (var i = tasksInOrbit.length - 1; i >= 0; i--) {
         tasksInOrbit[i].angle=taskAngle*i;
         $scope.update(tasksInOrbit[i]);
-      };
-    })   
-  }
+      }
+    });   
+  };
 
 }  
 
@@ -213,13 +204,13 @@ app.directive('task', function() {
       scope.isTaskDone=false;
       scope.toggleDetail=function() {
         scope.showDetail=! scope.showDetail;
-      }
+      };
       scope.toggleDone=function() {
         scope.isTaskDone=! scope.isTaskDone;
-      }
+      };
     }
-  }
-})
+  };
+});
 
 app.directive('orbitsum', function() {
   return {
@@ -235,10 +226,10 @@ app.directive('orbitsum', function() {
     link:function(scope, element, attrs) {
       attrs.$observe('name', function(value) {
         attrs.$set('class', "orbit"+value);
-      })
+      });
     }
-  }
-})
+  };
+});
 
 app.directive('planetRewrite', function() {
   return {
@@ -283,11 +274,11 @@ app.directive('planetRewrite', function() {
       scope.showTaskMenu=false;
       scope.toggleTaskMenu=function() {
         scope.showTaskMenu=! scope.showTaskMenu;
-      }
+      };
 
       function calculateOffset() {
         var canvasWidth=document.getElementById('singleOrbitCanvas').width;
-        var offset=canvasWidth*.375;
+        var offset=canvasWidth*0.375;
         attrs.$set('offset', offset);
       }
 
@@ -300,10 +291,10 @@ app.directive('planetRewrite', function() {
         var orbitSumRatio=canvas.width/8.15;
         var fontVerticalAlign=(canvas.width*0.0224);
 
-        attrs.$set('ttlSize', canvas.width*.12);
+        attrs.$set('ttlSize', canvas.width*0.12);
         attrs.$set('ttlMargin', canvas.width*0.025);
-        attrs.$set('fontSize', canvas.width*.05);
-        attrs.$set('fontSizeH4', canvas.width*.035);
+        attrs.$set('fontSize', canvas.width*0.05);
+        attrs.$set('fontSizeH4', canvas.width*0.035);
 
         if(value<2) {
          attrs.$set('size', 'smallPlanet');
@@ -314,28 +305,27 @@ app.directive('planetRewrite', function() {
 
         }
         else if(value>=2 && value<4) {
-          attrs.$set('size', 'mediumPlanet')
-          attrs.$set('show', 'yes')
+          attrs.$set('size', 'mediumPlanet');
+          attrs.$set('show', 'yes');
           attrs.$set('planitHeight', orbitSumRatio*1.75);
           attrs.$set('planitWidth', orbitSumRatio*1.75);
           attrs.$set('planitMargin', orbitSumRatio*-0.875);
         }
         else if(value>=4) {
-          attrs.$set('size', 'largePlanet')
-          attrs.$set('show', 'yes')
+          attrs.$set('size', 'largePlanet');
+          attrs.$set('show', 'yes');
           attrs.$set('planitHeight', orbitSumRatio*2.25);
           attrs.$set('planitWidth', orbitSumRatio*2.25);
           attrs.$set('planitMargin', orbitSumRatio*-1.125);
         }
         else {
-          attrs.$set('size', 'noPlanet')
-          attrs.$set('show', 'noShow')
+          attrs.$set('size', 'noPlanet');
+          attrs.$set('show', 'noShow');
         }
-      })
-      
+      });
     }
-  }
-})
+  };
+});
 
 
 
