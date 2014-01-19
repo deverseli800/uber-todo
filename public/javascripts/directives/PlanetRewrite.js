@@ -40,7 +40,6 @@ angular.module('todo.directives')
                 "</div>"+
               "</div>",
     link:function(scope, element, attrs) {
-      console.log("Here")
       scope.showTaskMenu=false;
       scope.toggleTaskMenu=function() {
         scope.showTaskMenu=! scope.showTaskMenu;
